@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!-- 타임리프를 사용하기 위해서 해줘야하는 작업 : 스키마 잡아주는 작업 -->
+<html xmlns:th="https://www.thymeleaf.org/">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<!-- jquery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+</head>
+<body>
+	<h1>채팅방입니다!</h1>
+	<!-- <table border='1'>
+		<tr>
+			<th>번호</th>
+			<th>사용자</th>
+			<th>일자</th>
+		</tr>
+		thymeleaf : 태그의 속성을 기준으로 동작
+		${list} : thymeleaf 에서는 request scope에 있는 데이터만 가져올 수 있다
+		${session.list}
+		<tr th:each="vo : ${list}">
+			Front개발자를 위한 prototype 제작에 효과적이다
+			<td th:text="${vo.user_id}">번호</td>
+			<td th:text="${vo.nickname}">사용자</td>
+			<td th:text="${vo.joindate}">작성일</td>
+		</tr>
+	</table> -->
+	<!-- jquery 문접 -->
+	<!-- <script type="text/javascript">
+		$(function(){
+			$(".del").on("click", function(){
+				alert("들어옴?");
+				location.href="boardInsert?num=";
+			})
+			/* $("#wri").on("click", function(){
+				location.href = "boardInsert"
+			}) */
+		}) -->
+	</script>
+</body>
+</html>

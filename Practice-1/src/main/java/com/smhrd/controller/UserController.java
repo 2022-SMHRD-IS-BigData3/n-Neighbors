@@ -36,17 +36,15 @@ public class UserController {
 	
 	@GetMapping("/userChatIn")
 	public String userChatIn(tb_user user, tb_chatroom chatroom) {
-		
-		
 		// 1. 수집한 데이터를 DB에 insert
 		userRepository.save(user);
 		
 		chatroom.setUser_seq(user.getUser_seq());
 		chatRoomRepository.save(chatroom);
 		
-		
 		return "redirect:/chatRoom";
 	}
+	
 	
 	
 	

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smhrd.entity.tb_admin;
 import com.smhrd.repository.AdminRepository;
+import com.smhrd.repository.ChatRoomRepository;
+import com.smhrd.repository.UserRepository;
 import com.smhrd.service.AdminLoginService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,19 +34,25 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 	@Autowired
 	private final AdminLoginService adminLoginService;
+	@Autowired
+	private final ChatRoomRepository chatRoomRepository;
 	
-	@RequestMapping("/index")
+	@GetMapping("/index")
 	public String index() {
 		return "index";
 	}
 	
-	@RequestMapping("/logout")
+	@GetMapping("/logout")
 	public String logout() {
 		return "index";
 	}
 	
-	@RequestMapping("/dashBoard")
-	public String dashBoard() {
+	@GetMapping("/dashBoard")
+	public String dashBoard(Model model) {
+		Long activeChatUserCount = chatRoomRepository.countActiveChatrooms();
+		Long activeAccChatUserCount = chatRoomRepository.countActiveAccChatrooms();
+		model.addAttribute("activeChatUserCount", activeChatUserCount);
+		model.addAttribute("activeAccChatUserCount", activeAccChatUserCount);
 		return "dashBoard";
 	}
 	
@@ -59,11 +68,20 @@ public class AdminController {
 	    session.setAttribute("adminId", adminId);
 //	    System.out.println("세션아이디가지고와??"+session.getId());
 		log.info("adminId = {}, adminPw = {}", adminId, adminPw);
+		
 		if(adminLoginService.login(adminId, adminPw).equals("Success")) {
 			return "redirect:/dashBoard";
 		}else {
 			return "redirect:/index?loginFailed=true";
 		}
 	}
+	
+//	@GetMapping("/")
+//	public String getUsers(Model model) {
+//		Long activeChatUserCount = chatRoomRepository.countActiveChatrooms();
+//		model.addAttribute("activeChatUserCount", activeChatUserCount);
+//		return "dashBoard";
+//	}
+	
 	
 };

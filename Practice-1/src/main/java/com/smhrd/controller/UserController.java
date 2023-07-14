@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.smhrd.entity.tb_admin;
 import com.smhrd.entity.tb_chatroom;
@@ -38,21 +39,51 @@ public class UserController {
 	public String userChatIn(tb_user user, tb_chatroom chatroom) {
 		// 1. 수집한 데이터를 DB에 insert
 		userRepository.save(user);
-		
+		// 2. 사용자식별번호 수집
 		chatroom.setUser_seq(user.getUser_seq());
+		// 3. tb_chatroom.user_seq 컬럼에 insert
 		chatRoomRepository.save(chatroom);
+		// 4. tb_chatroom 테이블의 cr_seq(방 식별번호) 가져옴
+		Long chatRoomId = chatroom.getCr_seq();
 		
-		return "redirect:/chatRoom";
+		return "redirect:/chatRoom?roomId=" + chatRoomId;
+	}
+	
+	@GetMapping("/userChatOut")
+	public String userChatOut(@RequestParam("roomId") Long roomId) {
+		// 사용자가 나가기 버튼을 클릭했을 때, user_outdate 컬럼을 현재 시간으로 업데이트
+		chatRoomRepository.updateUserOutDate(roomId);
+		
+		return "index";
 	}
 	
 	
 	
 	
 	
-//	@RequestMapping("/chatRoom")
-//	public String chatRoom(Model model) {
-//		List<User> list = repository.findAll(Sort.by(Sort.Direction.ASC, "user_id"));
-//		model.addAttribute("list", list);
-//		return "chatRoom";
-//	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

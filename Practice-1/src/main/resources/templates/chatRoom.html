@@ -1,41 +1,42 @@
 <!DOCTYPE html>
-<!-- 타임리프를 사용하기 위해서 해줘야하는 작업 : 스키마 잡아주는 작업 -->
-<html xmlns:th="https://www.thymeleaf.org/">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <title>Websocket ChatRoom</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="chatStyle/css/chatroom.css" rel="stylesheet" />
 </head>
 <body>
-	<h1>채팅방입니다!</h1>
-	<!-- <table border='1'>
-		<tr>
-			<th>번호</th>
-			<th>사용자</th>
-			<th>일자</th>
-		</tr>
-		thymeleaf : 태그의 속성을 기준으로 동작
-		${list} : thymeleaf 에서는 request scope에 있는 데이터만 가져올 수 있다
-		${session.list}
-		<tr th:each="vo : ${list}">
-			Front개발자를 위한 prototype 제작에 효과적이다
-			<td th:text="${vo.user_id}">번호</td>
-			<td th:text="${vo.nickname}">사용자</td>
-			<td th:text="${vo.joindate}">작성일</td>
-		</tr>
-	</table> -->
-	<!-- jquery 문접 -->
-	<!-- <script type="text/javascript">
-		$(function(){
-			$(".del").on("click", function(){
-				alert("들어옴?");
-				location.href="boardInsert?num=";
-			})
-			/* $("#wri").on("click", function(){
-				location.href = "boardInsert"
-			}) */
-		}) -->
-	</script>
+	<div>
+        <button id="chatOut" onclick="leaveChatRoom()">나가기</button>
+    </div>
+    <div class="container">
+        <div id="app" class="chat-container" v-cloak>
+            <div class="bubble-container">
+                <div v-for="(message, index) in messages" :class="{'user-bubble': message.sender === sender, 'other-bubble': message.sender !== sender}">
+                    <div class="bubble" :style="message.sender === sender ? 'align-self: flex-end' : 'align-self: flex-start'">
+                        {{message.sender}} - {{message.message}}
+                    </div>
+                </div>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	<!-- Websocket STOMP -->
+	<script src="chatStyle/js/Websocket_Stomp.js"></script>
+	<!-- 채팅방 나가기 자바스크립트 -->
+	<script src="chatStyle/js/leaveChatRoom.js"></script>
+
 </body>
 </html>

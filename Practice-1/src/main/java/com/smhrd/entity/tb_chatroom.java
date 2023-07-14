@@ -43,7 +43,8 @@ public class tb_chatroom {
 	@Column(insertable = false, columnDefinition = "datatime default now()" , updatable = false)
 	private Date user_indate;
 	
-	private Date user_outdate;
+	@Column(name = "user_outdate")
+	private Date userOutDate;
 	
 	public tb_chatroom(Long user_seq) {
 		this.user_seq = user_seq;

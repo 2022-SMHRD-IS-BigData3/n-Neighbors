@@ -47,20 +47,7 @@ public class AdminController {
 		return "index";
 	}
 	
-	@GetMapping("/dashBoard")
-	public String dashBoard(Model model) {
-		Long activeChatUserCount = chatRoomRepository.countActiveChatrooms();
-		Long activeAccChatUserCount = chatRoomRepository.countActiveAccChatrooms();
-		model.addAttribute("activeChatUserCount", activeChatUserCount);
-		model.addAttribute("activeAccChatUserCount", activeAccChatUserCount);
-		return "dashBoard";
-	}
-	
-	@GetMapping("/adminLogin")
-	public String adminLogin() {
-		return "adminLogin";
-	}
-	
+//	관리자 로그인 시 실행되는 메소드
 	@PostMapping(value = "/adminLogin")
 	public String adminLogin(HttpServletRequest request, HttpSession session) {
 		String adminId = request.getParameter("adminId");
@@ -70,18 +57,63 @@ public class AdminController {
 		log.info("adminId = {}, adminPw = {}", adminId, adminPw);
 		
 		if(adminLoginService.login(adminId, adminPw).equals("Success")) {
-			return "redirect:/dashBoard";
+			return "redirect:/dashboard";
 		}else {
 			return "redirect:/index?loginFailed=true";
 		}
 	}
 	
-//	@GetMapping("/")
-//	public String getUsers(Model model) {
-//		Long activeChatUserCount = chatRoomRepository.countActiveChatrooms();
-//		model.addAttribute("activeChatUserCount", activeChatUserCount);
-//		return "dashBoard";
-//	}
+//	대시보드 [현재 사용자 수][누적 사용자 수] 메소드
+	@GetMapping("/dashboard")
+	public String dashBoard(Model model) {
+		Long activeChatUserCount = chatRoomRepository.countActiveChatrooms();
+		Long activeAccChatUserCount = chatRoomRepository.countActiveAccChatrooms();
+		model.addAttribute("activeChatUserCount", activeChatUserCount);
+		model.addAttribute("activeAccChatUserCount", activeAccChatUserCount);
+		return "dashboard";
+	}
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 };

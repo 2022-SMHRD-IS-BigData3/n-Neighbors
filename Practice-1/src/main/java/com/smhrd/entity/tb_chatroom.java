@@ -34,19 +34,30 @@ public class tb_chatroom {
 	@Column(name = "cr_seq")
 	private Long cr_seq;
 	
-	@ManyToOne(targetEntity = tb_user.class, fetch = FetchType.LAZY)
-	@JoinColumn(name="user_seq", insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_seq", referencedColumnName = "user_seq", insertable = false, updatable = false)
 	private tb_user user;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_nick", referencedColumnName = "user_nick", insertable = false, updatable = false)
+	private tb_user userByNick;
+	
+	@Column(name = "user_seq")
 	private Long user_seq;
 	
-	@Column(insertable = false, columnDefinition = "datatime default now()" , updatable = false)
+	@Column(name = "user_nick")
+	private String userNick;
+	
+	@Column(insertable = false, columnDefinition = "datetime default now()", updatable = false)
 	private Date user_indate;
 	
 	@Column(name = "user_outdate")
 	private Date userOutDate;
 	
-	public tb_chatroom(Long user_seq) {
+	public tb_chatroom(Long user_seq, String userNick) {
 		this.user_seq = user_seq;
+		this.userNick = userNick;
 	}
+	
+	// 기타 Getter, Setter, 생성자 등의 코드
 }

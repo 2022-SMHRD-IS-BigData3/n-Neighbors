@@ -2,6 +2,9 @@ package com.smhrd.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -39,11 +42,13 @@ public class UserController {
 	public String userChatIn(tb_user user, tb_chatroom chatroom) {
 		// 1. 수집한 데이터를 DB에 insert
 		userRepository.save(user);
-		// 2. 사용자식별번호 수집
+		// 2. 사용자식별번호 tb_chatroom 테이블에 수집
 		chatroom.setUser_seq(user.getUser_seq());
-		// 3. tb_chatroom.user_seq 컬럼에 insert
+		// 3. 사용자닉네임 tb_chatroom 테이블에 수집
+		chatroom.setUserNick(user.getUserNick());
+		// 4. tb_chatroom. user_seq, user_nick 컬럼에 insert
 		chatRoomRepository.save(chatroom);
-		// 4. tb_chatroom 테이블의 cr_seq(방 식별번호) 가져옴
+		// 5. tb_chatroom 테이블의 cr_seq(방 식별번호) 가져옴
 		Long chatRoomId = chatroom.getCr_seq();
 		
 		return "redirect:/chatRoom?roomId=" + chatRoomId;
@@ -57,6 +62,18 @@ public class UserController {
 		return "index";
 	}
 	
+//	관리자 로그인 시 실행되는 메소드
+	@PostMapping(value = "/userChatIn")
+	public String chatUser(HttpServletRequest request, HttpSession session) {
+//		String adminId = request.getParameter("adminId");
+//	    String adminPw = request.getParameter("adminPw");
+	    String userNick = request.getParameter("userNick");
+	    session.setAttribute("userNick", userNick);
+//	    System.out.println("세션아이디가지고와??"+session.getId());
+		log.info("userNick = {}, userNick");
+		return userNick;
+		
+	}
 	
 	
 	

@@ -14,10 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.smhrd.entity.ChatRoom;
 import com.smhrd.repository.ChatRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/chat")
+//@RequestMapping("/chat")
 public class ChatRoomController {
 	private final ChatRepository chatRepository;
 

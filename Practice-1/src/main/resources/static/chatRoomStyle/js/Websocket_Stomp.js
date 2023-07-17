@@ -28,7 +28,7 @@ var vm = new Vue({
 			ws.send("/app/chat/message", {}, JSON.stringify({
 				type: 'TALK',
 				roomId: this.roomId,
-				sender: this.sender,
+				sender: this.userNick,
 				message: this.message
 			}));
 			this.message = '';
@@ -36,7 +36,7 @@ var vm = new Vue({
 		recvMessage: function(recv) {
 			this.messages.unshift({
 				"type": recv.type,
-				"sender": recv.type == 'ENTER' ? '[알림]' : recv.sender,
+				"sender": recv.type == 'ENTER' ? '[알림]' : recv.userNick,
 				"message": recv.message
 			});
 		}
@@ -52,7 +52,7 @@ function connect() {
 		ws.send("/app/chat/message", {}, JSON.stringify({
 			type: 'ENTER',
 			roomId: vm.$data.roomId,
-			sender: vm.$data.sender
+			sender: vm.$data.userNick
 		}));
 	}, function(error) {
 		if (reconnect++ <= 5) {

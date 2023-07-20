@@ -110,7 +110,11 @@
  /* 반응형 */
 
  .msger-inputarea {
-    width: 100%; /* 기본적으로 가로 폭을 100%로 설정 */
+ 	display: flex;
+ 	position: fixed;
+ 	bottom: 0;
+ 	left: 153px;
+    width: 67.8%; /* 기본적으로 가로 폭을 100%로 설정 */
     background-color: #f0f0f0;
     padding: 20px;
     box-sizing: border-box; /* 패딩과 보더를 요소의 크기에 포함 */
@@ -273,8 +277,9 @@
   }
   .msger-input {
     flex: 1;
-    background: #ddd;
+    background: white;
   }
+  
   .msger-send-btn {
     margin-left: 10px;
     background: #504b45;
@@ -283,13 +288,33 @@
     cursor: pointer;
     transition: background 0.23s;
   }
+  
   .msger-send-btn:hover {
     background: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
   }
   
-  .msger-chat {
-    background-color: #fcfcfe;
-    background-image: url("https://img.freepik.com/free-photo/cement-texture_1194-5341.jpg")
+  /* 채팅 메시지 리스트 영역에 스크롤이 생기도록 설정합니다. */
+    .list-group {
+        max-height: 700px; /* 적절한 높이로 조정해 주세요. */
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .list-group-item {
+        text-align: left;
+        border-radius: 10px;
+        margin: 7px;
+    }
+  
+  .list-group-item:last-child {
+  	margin-bottom: 0;
+  	border-bottom-right-radius: 0rem;
+  	border-bottom-left-radius: 0rem;
   }
   
+  .msger {
+    background-image: url("/backGround.jpg");
+  }

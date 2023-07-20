@@ -15,6 +15,7 @@
 <body>
 <!-- <div class="container" id="app" v-cloak> -->
        <section class="msger">
+       <div id="backGround">
          <div class="container" id="app" v-cloak style="padding: 0px; max-width: 1300px;">
            <header class="msger-header">
              <div class="msger-header-title">
@@ -24,13 +25,13 @@
                <span><i class="fas fa-cog"></i></span>
              </div>
            </header>
-              <ul class="list-group">
+               <ul class="list-group">
                   <li class="list-group-item" v-for="message in messages">
                      <a>{{message.talker}} - {{message.message}}</a>
                   </li>
-              </ul>
-              <div></div>
-              
+               </ul>
+             <!--  <div></div> -->
+        
             <div class="msger-inputarea">
                 <input type="text" class="msger-input" placeholder="전송할 말을 입력하세요. 바르고 고운 말을 사용합시다 :)" v-model="message" v-on:keypress.enter="sendMessage">
                 <div class="input-group-append">
@@ -38,6 +39,7 @@
                 </div>
              </div>
           </div>
+        </div>
        </section>
        
        <div class="left-div">
@@ -45,7 +47,7 @@
 	            <h3>현재 접속자 수 : 15명</h3>
 	        </div>
 	       <div class="slider-container">
-            <br><h3>순우리말 알아보기</h3>
+            <h3 style="padding-top: 10px">순우리말 알아보기</h3>
             <ul class="slider-list">
               <li>가람<br>'강'을 이르는 말.</li>
               <li>꽃가람<br>꽃이 가득 피어 있는 강.</li>

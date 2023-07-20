@@ -115,7 +115,7 @@ function prevSlide() {
 shuffleSlides();
 
 // 일정 간격으로 슬라이드 이동
-setInterval(nextSlide, 2500);
+setInterval(nextSlide, 1500);
 
 // 화살표 버튼을 클릭하면 슬라이드 이동
 document.getElementById('prevBtn').addEventListener('click', prevSlide);

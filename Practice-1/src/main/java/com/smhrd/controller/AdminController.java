@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.smhrd.entity.tb_admin;
 import com.smhrd.repository.AdminRepository;
-import com.smhrd.repository.ChatRoomRepository;
 import com.smhrd.repository.UserRepository;
 import com.smhrd.service.AdminLoginService;
 
@@ -34,8 +33,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminController {
 	@Autowired
 	private final AdminLoginService adminLoginService;
-	@Autowired
-	private final ChatRoomRepository chatRoomRepository;
 	
 	@GetMapping("/index")
 	public String index() {
@@ -47,8 +44,13 @@ public class AdminController {
 		return "index";
 	}
 	
+	@GetMapping("/dashBoard")
+	public String dashBoard(){
+		return "dashBoard";
+	}
+	
 //	관리자 로그인 시 실행되는 메소드
-	@PostMapping(value = "/adminLogin")
+	@PostMapping("/adminLogin")
 	public String adminLogin(HttpServletRequest request, HttpSession session) {
 		String adminId = request.getParameter("adminId");
 	    String adminPw = request.getParameter("adminPw");
@@ -57,21 +59,21 @@ public class AdminController {
 		log.info("adminId = {}, adminPw = {}", adminId, adminPw);
 		
 		if(adminLoginService.login(adminId, adminPw).equals("Success")) {
-			return "redirect:/dashboard";
+			return "redirect:/dashBoard";
 		}else {
 			return "redirect:/index?loginFailed=true";
 		}
 	}
 	
-//	대시보드 [현재 사용자 수][누적 사용자 수] 메소드
-	@GetMapping("/dashboard")
-	public String dashBoard(Model model) {
-		Long activeChatUserCount = chatRoomRepository.countActiveChatrooms();
-		Long activeAccChatUserCount = chatRoomRepository.countActiveAccChatrooms();
-		model.addAttribute("activeChatUserCount", activeChatUserCount);
-		model.addAttribute("activeAccChatUserCount", activeAccChatUserCount);
-		return "dashboard";
-	}
+	//대시보드 [현재 사용자 수][누적 사용자 수] 메소드
+//	@GetMapping("/dashboard")
+//	public String dashBoard(Model model) {
+//		Long activeChatUserCount = chatRoomRepository.countActiveChatrooms();
+//		Long activeAccChatUserCount = chatRoomRepository.countActiveAccChatrooms();
+//		model.addAttribute("activeChatUserCount", activeChatUserCount);
+//		model.addAttribute("activeAccChatUserCount", activeAccChatUserCount);
+//		return "dashboard";
+//	}
 	
 	
 

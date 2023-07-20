@@ -1,0 +1,108 @@
+@charset "UTF-8";
+
+[v-cloak] {
+	display: none;
+}
+
+body {
+	background: #f0eeee;
+	font: 14px/20px "Lato", Arial, sans-serif;
+	padding-top: 40px;
+	color: white;
+}
+
+/* 로고 space */
+.logoarea {
+	margin-left: 220px;
+}
+
+/*top5 */
+.topfive {
+	float: right;
+	height: 500px;
+	width: 280px;
+	background-color: antiquewhite;
+	margin-right: 200px;
+	margin-top: 1px;
+	border-radius: 10px;
+}
+
+.chat-container {
+	margin-top: 5px;
+	border-radius: 10px;
+	background-color: #F2F5F8;
+	text-align: center;
+	width: 1200px;
+	height: 750px;
+	flex-direction: column;
+	margin-left: 200px;
+}
+
+/* 채팅 말풍선 스타일 */
+.bubble {
+	display: inline-block;
+	max-width: 80%;
+	padding: 10px;
+	margin-bottom: 10px;
+	border-radius: 10px;
+	color: #000;
+}
+
+/* 사용자가 입력한 채팅 말풍선 스타일 */
+.user-bubble {
+	text-align: left;
+	/* background-color: #a29bfe; */
+	/* align-self: flex-end; */
+	border-radius: 10px;
+	margin-bottom: 30px;
+	color: #fff;
+}
+
+/* 상대방이 입력한 채팅 말풍선 스타일 */
+.other-bubble {
+	/* background-color: #e6e6e6; */
+	/* align-self: flex-start; */
+	margin-bottom: 30px;
+}
+
+.container {
+	float: left;
+}
+
+/* 말풍선 컨테이너 스타일 */
+.bubble-container {
+	flex-direction: column-reverse;
+	align-items: flex-end;
+	height: calc(100% - 60px);
+	overflow-y: auto;
+	/* text-align: right; */
+}
+
+/* 보내기 버튼*/
+.send-group {
+	background-color: F2F5F8;
+	height: 50px;
+	width: 200px;
+}
+
+.btn {
+	margin-bottom: 30px;
+	float: right;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+/* 입력창 스타일 */
+.form-control {
+	flex: 1.5;
+	height: 40px;
+	resize: none;
+	margin-left: 10px;
+}
+
+.form-group {
+	height: 70px;
+	width: 1200px;
+	background-color: #F2F5F8;
+	display: flex;
+}

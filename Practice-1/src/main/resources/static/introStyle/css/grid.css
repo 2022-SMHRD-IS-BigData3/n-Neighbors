@@ -1,0 +1,24 @@
+.container{
+    display: grid;
+    grid-template-columns: 20% 1fr;;
+    grid-template-rows:100px  1fr 100px;
+    height: 100%;
+    grid-gap:20px;
+    grid-template-areas:
+    "header header"
+    "side main"
+    "footer footer";
+}
+.header{
+    grid-area: header;
+}
+.side{
+    grid-area: side;
+}
+.main{
+    grid-area: main;
+}
+.footer{
+    grid-area: footer;
+}
+  

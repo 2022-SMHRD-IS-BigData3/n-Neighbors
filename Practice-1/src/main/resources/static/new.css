@@ -1,0 +1,298 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'EBSHunminjeongeumSBA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHunminjeongeum.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'EBSHMJESaeronRA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHMJESaeronRA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+:root {
+    --body-bg: white;
+    --msger-bg: #fff;
+    --border: 2px solid #ddd;
+    --left-msg-bg: #ececec;
+    --right-msg-bg: #16a072;
+  }
+  
+  html {
+    box-sizing: border-box;
+  }
+  #chatOut {
+  	width: 300px;
+    height: 50px;
+    margin: 5px;
+    /* margin-bottom: 5px; */
+    background-color: #504b45;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    padding: 6px;
+    font-family: EBSHunminjeongeumSBA;
+    font-size: 22px;
+    line-height: 1.4;
+    color: white;
+  }
+  .nowUser {
+    width: 300px;
+    height: 50px;
+    margin: 5px;
+    /* margin-bottom: 5px; */
+    background-color: #504b45;
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    text-align: center;
+    padding: 6px;
+    font-family: EBSHunminjeongeumSBA;
+    font-size: 22px;
+    line-height: 1.4;
+    color: white;
+  }
+
+  .top5 {
+    width: 300px;
+    height: 240px;
+    background-color: #eee;
+    border: 2px solid #ddd;
+    color: #eee;
+    margin: 5px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    padding: 6px;
+    text-align: center;
+    font-family: EBSHMJESaeronRA;
+    font-size: 23px;
+    background-image: url("/board.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    line-height: 1.5;
+  }
+
+  table {
+    font-family: EBSHMJESaeronRA;
+    font-size: 21px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sejong {
+    width: 300px;
+    height: 520px;
+    background-color: rgba(0, 0, 0, 0);
+    text-align: center;
+    margin: 5px;
+    border-radius: 3px;
+    background-image: url("https://img.freepik.com/free-photo/cement-texture_1194-5341.jpg");
+    margin-bottom: 10px;
+    border: 2px solid #ddd;
+    
+ }
+
+
+
+  
+  *,
+  *:before,
+  *:after {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+  }
+
+  .right-align {
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: var(--body-bg);
+    font-family: Helvetica, sans-serif;
+    
+  }
+  
+  .container {
+  	padding: 0px;
+  	max-width: 1300px;
+  }
+  
+  .msger {
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1300px;
+    margin: 25px 10px;
+    height: calc(100% - 50px);
+    border: var(--border);
+    border-radius: 5px;
+    background: var(--msger-bg);
+    box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
+    
+  }
+  
+  
+  
+  .msger-header {
+    text-align: center;
+    justify-content: space-between;
+    padding: 5px;
+    border-bottom: var(--border);
+    background: #504b45;
+    font-family: EBSHunminjeongeumSBA;
+    font-size: 25px;
+    color: white;
+    border-radius: 5px;
+  }
+  
+  .msger-chat {
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px;
+  }
+  .msger-chat::-webkit-scrollbar {
+    width: 6px;
+  }
+  .msger-chat::-webkit-scrollbar-track {
+    background: #ddd;
+  }
+  .msger-chat::-webkit-scrollbar-thumb {
+    background: #bdbdbd;
+  }
+  .msg {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 10px;
+  }
+  .msg:last-of-type {
+    margin: 0;
+  }
+  .msg-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    background: #ddd;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 50%;
+  }
+  .msg-bubble {
+    max-width: 450px;
+    padding: 15px;
+    border-radius: 15px;
+    background: var(--left-msg-bg);
+  }
+  .msg-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .msg-info-name {
+    margin-right: 10px;
+    font-weight: bold;
+  }
+  .msg-info-time {
+    font-size: 0.85em;
+  }
+  
+  .left-msg .msg-bubble {
+    border-bottom-left-radius: 0;
+  }
+  
+  .right-msg {
+    flex-direction: row-reverse;
+  }
+  .right-msg .msg-bubble {
+    background: var(--right-msg-bg);
+    color: #fff;
+    border-bottom-right-radius: 0;
+  }
+  .right-msg .msg-img {
+    margin: 0 0 0 10px;
+  }
+  
+  .list-group {
+        max-height: 750px; /* 적절한 높이로 조정해 주세요. */
+        overflow-y: auto;
+    }
+  
+  /* CSS 코드에 아래 부분을 추가하여 채팅 입력 영역이 항상 화면 하단에 고정되도록 설정합니다. */
+	.msger-inputarea {
+	  position: fixed;
+	  bottom: 0;
+	  left: 456px;
+	  width: 68.3%;
+	  padding: 10px;
+	  background-color: #f1f1f1;
+	  display: flex;
+	  align-items: center;
+	}
+	
+	.msger-input {
+	  flex: 1;
+	  padding: 10px;
+	}
+	
+	.msger-send-btn {
+	  padding: 10px;
+	  margin-left: 10px;
+	}
+	
+	/* 채팅 메시지 리스트의 높이를 조정하여 채팅 입력 영역이 메시지들 위에 겹치지 않도록 합니다. */
+	.msger ul {
+	  padding-bottom: 60px; /* 적절한 높이로 조정해 주세요. */
+	}
+  
+  /* .msger-inputarea {
+    display: flex;
+    padding: 10px;
+    border-top: var(--border);
+    background: #eee;
+    border-radius: 5px;
+  }
+  .msger-inputarea * {
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    font-size: 1em;
+    border-radius: 5px;
+  }
+  .msger-input {
+    flex: 1;
+    background: #ddd;
+  }
+  .msger-send-btn {
+    margin-left: 10px;
+    background: #504b45;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.23s;
+  }
+  .msger-send-btn:hover {
+    background: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+  } */
+  
+  .msger-chat {
+    background-color: #fcfcfe;
+    background-image: url("https://img.freepik.com/free-photo/cement-texture_1194-5341.jpg")
+  }
+  

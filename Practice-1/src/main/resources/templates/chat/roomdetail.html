@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Document</title>
+<link rel="stylesheet" href="/new.css">
+<link rel="stylesheet" href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
+<style>
+[v-cloak] {
+    display: none;
+    }
+</style>
+</head>
+<body>
+<!-- <div class="container" id="app" v-cloak> -->
+    <div class="left-div">
+        <div class="nowUser">
+            <h3>현재 접속자 수 : 15명</h3>
+        </div>
+        <div class="top5">
+            <h3>욕한 사람</h3>      
+            <table name="table">
+                <tr>
+                    <td>1위 배지훈</td>
+                </tr>
+                <tr>
+                    <td>2위 배지훈</td>
+                </tr>
+                <tr>
+                    <td>3위 배지훈</td>
+                </tr>
+                <tr>
+                    <td>4위 배지훈</td>
+                </tr>
+                <tr>
+                    <td>5위 배지훈</td>
+                </tr>
+            </table>
+        </div>
+        <div class="sejong">
+            <div class="img-container">
+                <img src="/sejong_modi.gif" style="width: 300px; height: 500px;" >
+            </div>
+        </div>
+        <div class="now">
+            <button id="chatOut" onclick="location.href='/chat/room'">채팅방 나가기</button>
+        </div>
+    </div>
+    
+	    <section class="msger">
+	      <div class="container" id="app" v-cloak style="padding: 0px; max-width: 1300px;">
+	        <header class="msger-header">
+	          <div class="msger-header-title">
+	            <i class="chatroom"></i>{{room.name}}
+	          </div>
+	          <div class="msger-header-options">
+	            <span><i class="fas fa-cog"></i></span>
+	          </div>
+	        </header>
+		        <ul class="list-group">
+		            <li class="list-group-item" v-for="message in messages">
+		               <a>{{message.talker}} - {{message.message}}</a>
+		            </li>
+		        </ul>
+		        <div></div>
+		        
+			   <div class="msger-inputarea">
+			       <input type="text" class="msger-input" placeholder="전송할 말을 입력하세요. 바르고 고운 말을 사용합시다 :)" v-model="message" v-on:keypress.enter="sendMessage">
+			       <div class="input-group-append">
+			           <button class="msger-send-btn" type="button" @click="sendMessage">전송</button>
+			       </div>
+	          </div>
+    	   </div>
+	    </section>
+
+<!-- <script src="/new.js"></script> -->
+<!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	
+	<script>
+        //alert(document.title);
+        // websocket &amp; stomp initialize
+        var sock = new SockJS("/ws/chat");
+        var ws = Stomp.over(sock);
+        var reconnect = 0;
+        
+        function autoScrollIfNeeded() {
+            var chatContainer = document.querySelector('.list-group');
+            var scrollPos = chatContainer.scrollHeight - chatContainer.clientHeight;
+            var scrollThreshold = 100; // 일정 구간 값 (적절한 값으로 조정해주세요.)
+
+            if (scrollPos <= scrollThreshold) {
+                scrollChatToBottom();
+            }
+        }
+        
+        // vue.js
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                roomId: '',
+                room: {},
+                talker: '',
+                message: '',
+                messages: []
+            },
+            created() {
+                this.roomId = localStorage.getItem('wschat.roomId');
+                this.talker = localStorage.getItem('wschat.talker');
+                this.findRoom();
+            },
+            methods: {
+                findRoom: function() {
+                    axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
+                },
+                sendMessage: function() {
+                    ws.send("/pub/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, talker:this.talker, message:this.message}));
+                    this.message = '';
+                    autoScrollIfNeeded();
+                },
+                recvMessage: function(recv) {
+                    this.messages.unshift({"type":recv.type,"talker":recv.type=='ENTER'?'[알림]':recv.talker,"message":recv.message})
+                    autoScrollIfNeeded();
+                }
+            }
+        });
+        function connect() {
+            // pub/sub event
+            ws.connect({}, function(frame) {
+                ws.subscribe("/sub/chat/room/"+vm.$data.roomId, function(message) {
+                    var recv = JSON.parse(message.body);
+                    vm.recvMessage(recv);
+                });
+                ws.send("/pub/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, talker:vm.$data.talker}));
+            }, function(error) {
+                if(reconnect++ <= 5) {
+                    setTimeout(function() {
+                        console.log("connection reconnect");
+                        sock = new SockJS("/ws/chat");
+                        ws = Stomp.over(sock);
+                        connect();
+                    },10*1000);
+                }
+            });
+        }
+        connect();
+    </script>
+    
+
+</body>
+</html>

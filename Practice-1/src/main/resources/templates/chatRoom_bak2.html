@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Websocket ChatRoom</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link href="chatRoomStyle/css/chatroom.css" rel="stylesheet" />
+</head>
+<body>
+	<div>
+        <button id="chatOut" onclick="leaveChatRoom()">나가기</button>
+    </div>
+    <div class="container">
+        <div id="app" class="chat-container" v-cloak>
+            <div class="bubble-container">
+                <div v-for="(message, index) in messages" :class="{'user-bubble': message.sender === sender, 'other-bubble': message.sender !== sender}">
+                    <div class="bubble" :style="message.sender === sender ? 'align-self: flex-end' : 'align-self: flex-start'">
+                        {{message.sender}} - {{message.message}}
+                    </div>
+                </div>
+            </div>
+            <div style="color: black;">
+                <h1 th:text="${session.userNick}">테스트테스트</h1>
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" v-model="message" v-on:keypress.enter="sendMessage">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button" @click="sendMessage">보내기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+	<!-- Websocket STOMP -->
+	<script src="chatRoomStyle/js/Websocket_Stomp.js"></script>
+	<!-- 채팅방 나가기 자바스크립트 -->
+	<script src="chatRoomStyle/js/leaveChatRoom.js"></script>
+
+</body>
+</html>

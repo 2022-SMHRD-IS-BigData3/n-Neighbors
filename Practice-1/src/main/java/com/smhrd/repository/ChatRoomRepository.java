@@ -1,25 +1,40 @@
 package com.smhrd.repository;
 
-import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import javax.annotation.PostConstruct;
+
 import org.springframework.stereotype.Repository;
 
-import com.smhrd.entity.tb_chatroom;
+import com.smhrd.entity.ChatRoom;
 
 @Repository
-public interface ChatRoomRepository extends JpaRepository<tb_chatroom, Long>{   // <테이블 역할을 하는 클래스, 테이블 PK의 자료형>
-	@Query("SELECT COUNT(*) FROM tb_chatroom WHERE user_outdate IS NULL")
-	Long countActiveChatrooms();
-	
-	@Query("SELECT COUNT(*) FROM tb_chatroom")
-	Long countActiveAccChatrooms();
-	
-	@Transactional
-	@Modifying
-	@Query("update tb_chatroom c set c.userOutDate = CURRENT_TIMESTAMP where c.cr_seq = :roomId")
-	void updateUserOutDate(@Param("roomId") Long roomId);
+public class ChatRoomRepository {
+	private Map<String, ChatRoom> chatRoomMap;
+
+	@PostConstruct
+	private void init() {
+		chatRoomMap = new LinkedHashMap<>();
+	}
+
+	public List<ChatRoom> findAllRoom() {
+		// 채팅방 생성순서 최근 순으로 반환
+		List chatRooms = new ArrayList<>(chatRoomMap.values());
+		Collections.reverse(chatRooms);
+		return chatRooms;
+	}
+
+	public ChatRoom findRoomById(String id) {
+		return chatRoomMap.get(id);
+	}
+
+	public ChatRoom createChatRoom(String name) {
+		ChatRoom chatRoom = ChatRoom.create(name);
+		chatRoomMap.put(chatRoom.getRoomId(), chatRoom);
+		return chatRoom;
+	}
 }

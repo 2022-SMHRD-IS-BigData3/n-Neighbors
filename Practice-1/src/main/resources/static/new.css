@@ -1,5 +1,3 @@
-@charset "UTF-8";
-
 @font-face {
     font-family: 'EBSHunminjeongeumSBA';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHunminjeongeum.woff') format('woff');
@@ -26,22 +24,8 @@
   html {
     box-sizing: border-box;
   }
-  #chatOut {
-  	width: 300px;
-    height: 50px;
-    margin: 5px;
-    /* margin-bottom: 5px; */
-    background-color: #504b45;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    text-align: center;
-    padding: 6px;
-    font-family: EBSHunminjeongeumSBA;
-    font-size: 22px;
-    line-height: 1.4;
-    color: white;
-  }
-  .nowUser {
+
+  .now {
     width: 300px;
     height: 50px;
     margin: 5px;
@@ -56,8 +40,21 @@
     line-height: 1.4;
     color: white;
   }
+  
+    #chatOut {
 
-  .top5 {
+    background-color: #504b45;
+    text-align: center;
+    border-color: #504b45;
+    font-family: EBSHunminjeongeumSBA;
+    font-size: 22px;
+    line-height: 1.4;
+    color: white;
+    box-shadow: none;
+    
+  }
+
+  .slider-container {
     width: 300px;
     height: 240px;
     background-color: #eee;
@@ -70,20 +67,31 @@
     text-align: center;
     font-family: EBSHMJESaeronRA;
     font-size: 23px;
-    background-image: url("/board.jpg");
+    background-image: url("./board.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
     line-height: 1.5;
   }
 
-  table {
-    font-family: EBSHMJESaeronRA;
-    font-size: 21px;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+  .slider-container {
+    overflow: hidden; /* 슬라이드가 넘치는 부분을 숨김 */
   }
+  
+  .slider-list {
+    list-style: none; /* 리스트 기본 스타일 제거 */
+    margin: 0;
+    padding: 0;
+    display: flex; /* 슬라이드들을 가로로 배치 */
+    transition: transform 0.3s ease; /* 슬라이드 애니메이션 설정 */
+  }
+  
+  .slider-list li {
+    min-width: 100%; /* 각 슬라이드가 전체 화면을 차지하도록 설정 */
+    padding: 10px;
+    text-align: center;
+  }
+
 
   .sejong {
     width: 300px;
@@ -98,6 +106,34 @@
     
  }
 
+
+ /* 반응형 */
+
+ .msger-inputarea {
+    width: 100%; /* 기본적으로 가로 폭을 100%로 설정 */
+    background-color: #f0f0f0;
+    padding: 20px;
+    box-sizing: border-box; /* 패딩과 보더를 요소의 크기에 포함 */
+  }
+
+ /* 미디어 쿼리를 사용하여 화면 크기에 따라 스타일 변경 */
+ @media (max-width: 768px) {
+    .msger-inputarea {
+      font-size: 14px; /* 화면 너비가 768px 이하일 때 글자 크기를 조정 */
+    }
+  }
+
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .msger-inputarea {
+      font-size: 16px; /* 화면 너비가 769px 이상 1024px 이하일 때 글자 크기를 조정 */
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .msger-inputarea {
+      font-size: 18px; /* 화면 너비가 1025px 이상일 때 글자 크기를 조정 */
+    }
+  }
 
 
   
@@ -126,11 +162,6 @@
     
   }
   
-  .container {
-  	padding: 0px;
-  	max-width: 1300px;
-  }
-  
   .msger {
     display: flex;
     flex-flow: column wrap;
@@ -145,8 +176,6 @@
     box-shadow: 0 15px 15px -5px rgba(0, 0, 0, 0.2);
     
   }
-  
-  
   
   .msger-header {
     text-align: center;
@@ -228,39 +257,7 @@
     margin: 0 0 0 10px;
   }
   
-  .list-group {
-        max-height: 750px; /* 적절한 높이로 조정해 주세요. */
-        overflow-y: auto;
-    }
-  
-  /* CSS 코드에 아래 부분을 추가하여 채팅 입력 영역이 항상 화면 하단에 고정되도록 설정합니다. */
-	.msger-inputarea {
-	  position: fixed;
-	  bottom: 0;
-	  left: 456px;
-	  width: 68.3%;
-	  padding: 10px;
-	  background-color: #f1f1f1;
-	  display: flex;
-	  align-items: center;
-	}
-	
-	.msger-input {
-	  flex: 1;
-	  padding: 10px;
-	}
-	
-	.msger-send-btn {
-	  padding: 10px;
-	  margin-left: 10px;
-	}
-	
-	/* 채팅 메시지 리스트의 높이를 조정하여 채팅 입력 영역이 메시지들 위에 겹치지 않도록 합니다. */
-	.msger ul {
-	  padding-bottom: 60px; /* 적절한 높이로 조정해 주세요. */
-	}
-  
-  /* .msger-inputarea {
+  .msger-inputarea {
     display: flex;
     padding: 10px;
     border-top: var(--border);
@@ -289,7 +286,7 @@
   .msger-send-btn:hover {
     background: rgb(0, 0, 0);
     color: rgb(255, 255, 255);
-  } */
+  }
   
   .msger-chat {
     background-color: #fcfcfe;

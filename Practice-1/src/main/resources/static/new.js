@@ -1,4 +1,4 @@
-const msgerForm = get(".msger-inputarea");
+/*const msgerForm = get(".msger-inputarea");
 const msgerInput = get(".msger-input");
 const msgerChat = get(".msger-chat");
 
@@ -73,4 +73,50 @@ function formatDate(date) {
 
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
+}*/
+
+// 순우리말 슬라이드
+
+const slider = document.querySelector('.slider-list');
+let slideIndex = 0;
+let slides = Array.from(slider.children);
+
+// Fisher-Yates 셔플 알고리즘을 사용하여 슬라이드 순서를 섞음
+function shuffleSlides() {
+  for (let i = slides.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [slides[i], slides[j]] = [slides[j], slides[i]];
+  }
 }
+
+function showSlide() {
+  const slideWidth = slides[0].offsetWidth;
+  slider.style.transform = `translateX(-${slideWidth * slideIndex}px)`;
+}
+
+function nextSlide() {
+  slideIndex++;
+  if (slideIndex >= slides.length) {
+    slideIndex = 0;
+    shuffleSlides(); // 슬라이드가 모두 보여지면 다시 섞음
+  }
+  showSlide();
+}
+
+function prevSlide() {
+  slideIndex--;
+  if (slideIndex < 0) {
+    slideIndex = slides.length - 1;
+  }
+  showSlide();
+}
+
+// 초기화 시 슬라이드 순서를 랜덤으로 섞음
+shuffleSlides();
+
+// 일정 간격으로 슬라이드 이동
+setInterval(nextSlide, 2500);
+
+// 화살표 버튼을 클릭하면 슬라이드 이동
+document.getElementById('prevBtn').addEventListener('click', prevSlide);
+document.getElementById('nextBtn').addEventListener('click', nextSlide);

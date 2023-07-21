@@ -2,118 +2,172 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Document</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>세종대화</title>
 <link rel="stylesheet" href="/new.css">
-<link rel="stylesheet" href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
 <style>
 [v-cloak] {
-    display: none;
-    }
+	display: none;
+}
 </style>
 </head>
 <body>
-<!-- <div class="container" id="app" v-cloak> -->
-       <section class="msger">
-         <div class="container" id="app" v-cloak style="padding: 0px; max-width: 1300px;">
-           <header class="msger-header">
-             <div class="msger-header-title">
-               <i class="chatroom"></i>{{room.name}}
-             </div>
-             <div class="msger-header-options">
-               <span><i class="fas fa-cog"></i></span>
-             </div>
-           </header>
-               <ul class="list-group">
-                  <li class="list-group-item" v-for="message in messages" :class="{ 'right': message.talker === talker, 'left': message.talker !== talker}">
-                  	<div>
-                  		<span class="talker">{{ "["+message.talker+"]" }}</span>
-                  		<div class="message">{{ message.message }}</div>
-                  	</div>
-            	  </li>
-               </ul>
-             <!--  <div></div> -->
-        
-            <div class="msger-inputarea">
-                <input type="text" class="msger-input" placeholder="전송할 말을 입력하세요. 바르고 고운 말을 사용합시다 :)" v-model="message" v-on:keypress.enter="sendMessage">
-                <div class="input-group-append">
-                    <button class="msger-send-btn" type="button" @click="sendMessage">전송</button>
-                </div>
-             </div>
-          </div>
-       </section>
-       
-       <div class="left-div">
-	        <div class="now">
-	            <h3>현재 접속자 수 : 15명</h3>
-	        </div>
-	       <div class="slider-container">
-            <h3 style="padding-top: 10px">순우리말 알아보기</h3>
-            <ul class="slider-list">
-              <li>가람<br>'강'을 이르는 말.</li>
-              <li>꽃가람<br>꽃이 가득 피어 있는 강.</li>
-              <li>꽃내음<br>꽃에서 나는 향기를 운치 있게 이르는 말.</li>
-              <li>나릿물<br>'냇물'을 이르는 말.<li>
-              <li>너울<br>바다의 크고 사나운 물결.<li>
-              <li>는개<br>안개비보다는 조금 굵고 이슬비보다는 가는 비.<li>
-              <li>늘해랑<br>늘 해와 함께 살아가는 밝고 강한 사람.<li>
-              <li>늦마<br>제철이 지난 뒤에 지는 장마.<li>
-              <li>다솜<br>애틋하게 사랑함.<li>
-              <li>닻별<br>북극성을 중심으로 북두칠성의 맞은편에 있는 ‘W’ 자 모양의 별자리.<li>
-              <li>돌개바람<br>열대 지방에서 발생하는 열대성 저기압을 통틀어 이르는 말.<li>
-              <li>둔치<br>물가의 언덕. 강, 호수 따위의 물이 있는 곳의 가장자리.<li>
-              <li>마루<br>'하늘'을 이르는 말.<li>
-              <li>매지구름<br>비를 머금은 검은 조각구름.<li>
-              <li>모람모람<br>이따금씩 한데 몰아서.<li>
-              <li>미리내<br>'은하수'를 이르는 말.<li>
-              <li>솔찬<br>소나무처럼 푸르고 옹골차게.<li>
-              <li>아라<br>'바다'를 이르는 말.<li>
-              <li>윤슬<br>햇빛이나 달빛에 비치어 반짝이는 잔물결.<li>
-              <li>잎망울<br>아직 피지 아니하고 잎눈이 부풀어서 곧 피어날 듯한 잎.<li>
-              <li>부슬비<br>바람이 없는 날 성기게 조용히 내리는 비.<li>
-              <li>눈먼지<br>눈보라가 일거나 스키 따위로 눈 위를 달릴 때 날리는 눈가루.<li>
-              <li>예그리나<br>사랑하는 우리사이.<li>
-              <li>비나리<br>'축복의 말'의 우리말.<li>
-              <li>늘솔길<br>언제나 솔바람이 부는 길.<li>
-              <li>그린나래<br>그린 듯이 아름다운 날개.<li>
-              <li>물비늘<br>잔잔한 물결이 햇살 따위에 비치는 모양.<li>
-              <li>푸실<br>풀이 우거진 마을.<li>
-              <li>달보드레하다<br>연하고 달콤하다.<li>
-              <li>라온<br>'즐거운' 이라는 순 우리말.<li>
-              <li>나길<br>나 자신의 길을 꿋꿋이 걸어가라.<li>
-              <li>띠앗머리<br>형제자매 사이의 우애 및 정.<li>
-              <li>다빈<br>마음을 비우고 최선을 다하다.<li>
-              <li>다흰<br>흰 눈꽃처럼 세상을 하얗게 한다.<li>
-              <li>두남받다<br>남다른 도움이나 사랑을 받다.<li>
-              <li>라온제나<br>기쁜 우리.<li>
-              <li>모도리<br>야무지고 빈틈없는 사람.<li>
-              <li>마닐마닐<br>음식이 씹어먹기 알맞게 부드럽고 말랑말랑함.<li>
-              <li>먼산바라기<br>먼 곳만 우두커니 바라보는 일.<li>
-              <li>바림<br>색칠을 할 때 한쪽을 짙게 하고 다른 쪽으로 갈 수록 차츰 엷게 나타나도록 하는 일.<li>
-              <li>별솔<br>별처럼 빛나게 소나무처럼 푸르게.<li>
-              <li>새결<br>새로운 물결.<li>
-              <li>벙글다<br>꽃을 피우기 위해 망울이 생김.<li>
-              <li>시나브로<br>모르는 사이에 조금씩 조금씩.<li>
-            </ul>
-          </div>
-	        <div class="sejong">
-	            <div class="img-container">
-	                <img src="/sejong_modi.gif" style="width: 300px; height: 500px;" >
-	            </div>
-	        </div>
-	        <div class="now">
-	            <button id="chatOut" onclick="location.href='/chat/room'">채팅방 나가기</button>
-	        </div>
-    </div>
+	<!-- <div class="container" id="app" v-cloak> -->
+	<section class="msger">
+		<div class="container" id="app" v-cloak
+			style="padding: 0px; max-width: 1300px;">
+			<header class="msger-header">
+				<div class="msger-header-title">
+					<i class="chatroom"></i>{{room.name}}
+				</div>
+				<div class="msger-header-options">
+					<span><i class="fas fa-cog"></i></span>
+				</div>
+			</header>
+			<ul class="list-group">
+				<li class="list-group-item" v-for="message in messages"
+					:class="{ 'right': message.talker === talker, 'left': message.talker !== talker}">
+					<div>
+						<span class="talker">{{ "["+message.talker+"]" }}</span>
+						<div class="message">{{ message.message }}</div>
+					</div>
+				</li>
+			</ul>
+			<!--  <div></div> -->
 
-	 <script src="/new.js"></script>
-<!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-   
-   <script>
+			<div class="msger-inputarea">
+				<input type="text" class="msger-input"
+					placeholder="전송할 말을 입력하세요. 바르고 고운 말을 사용합시다 :)" v-model="message"
+					v-on:keypress.enter="sendMessage">
+				<div class="input-group-append">
+					<button class="msger-send-btn" type="button" @click="sendMessage">전송</button>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<div class="left-div">
+		<div class="now">
+			<h3>현재 접속자 수 : 15명</h3>
+		</div>
+		<div class="slider-container">
+			<h3 style="padding-top: 10px">순우리말 알아보기</h3>
+			<ul class="slider-list">
+				<li>가람<br>'강'을 이르는 말.
+				</li>
+				<li>꽃가람<br>꽃이 가득 피어 있는 강.
+				</li>
+				<li>꽃내음<br>꽃에서 나는 향기를 운치 있게 이르는 말.
+				</li>
+				<li>나릿물<br>'냇물'을 이르는 말.
+				<li>
+				<li>너울<br>바다의 크고 사나운 물결.
+				<li>
+				<li>는개<br>안개비보다는 조금 굵고 이슬비보다는 가는 비.
+				<li>
+				<li>늘해랑<br>늘 해와 함께 살아가는 밝고 강한 사람.
+				<li>
+				<li>늦마<br>제철이 지난 뒤에 지는 장마.
+				<li>
+				<li>다솜<br>애틋하게 사랑함.
+				<li>
+				<li>닻별<br>북극성을 중심으로 북두칠성의 맞은편에 있는 ‘W’ 자 모양의 별자리.
+				<li>
+				<li>돌개바람<br>열대 지방에서 발생하는 열대성 저기압을 통틀어 이르는 말.
+				<li>
+				<li>둔치<br>물가의 언덕. 강, 호수 따위의 물이 있는 곳의 가장자리.
+				<li>
+				<li>마루<br>'하늘'을 이르는 말.
+				<li>
+				<li>매지구름<br>비를 머금은 검은 조각구름.
+				<li>
+				<li>모람모람<br>이따금씩 한데 몰아서.
+				<li>
+				<li>미리내<br>'은하수'를 이르는 말.
+				<li>
+				<li>솔찬<br>소나무처럼 푸르고 옹골차게.
+				<li>
+				<li>아라<br>'바다'를 이르는 말.
+				<li>
+				<li>윤슬<br>햇빛이나 달빛에 비치어 반짝이는 잔물결.
+				<li>
+				<li>잎망울<br>아직 피지 아니하고 잎눈이 부풀어서 곧 피어날 듯한 잎.
+				<li>
+				<li>부슬비<br>바람이 없는 날 성기게 조용히 내리는 비.
+				<li>
+				<li>눈먼지<br>눈보라가 일거나 스키 따위로 눈 위를 달릴 때 날리는 눈가루.
+				<li>
+				<li>예그리나<br>사랑하는 우리사이.
+				<li>
+				<li>비나리<br>'축복의 말'의 우리말.
+				<li>
+				<li>늘솔길<br>언제나 솔바람이 부는 길.
+				<li>
+				<li>그린나래<br>그린 듯이 아름다운 날개.
+				<li>
+				<li>물비늘<br>잔잔한 물결이 햇살 따위에 비치는 모양.
+				<li>
+				<li>푸실<br>풀이 우거진 마을.
+				<li>
+				<li>달보드레하다<br>연하고 달콤하다.
+				<li>
+				<li>라온<br>'즐거운' 이라는 순 우리말.
+				<li>
+				<li>나길<br>나 자신의 길을 꿋꿋이 걸어가라.
+				<li>
+				<li>띠앗머리<br>형제자매 사이의 우애 및 정.
+				<li>
+				<li>다빈<br>마음을 비우고 최선을 다하다.
+				<li>
+				<li>다흰<br>흰 눈꽃처럼 세상을 하얗게 한다.
+				<li>
+				<li>두남받다<br>남다른 도움이나 사랑을 받다.
+				<li>
+				<li>라온제나<br>기쁜 우리.
+				<li>
+				<li>모도리<br>야무지고 빈틈없는 사람.
+				<li>
+				<li>마닐마닐<br>음식이 씹어먹기 알맞게 부드럽고 말랑말랑함.
+				<li>
+				<li>먼산바라기<br>먼 곳만 우두커니 바라보는 일.
+				<li>
+				<li>바림<br>색칠을 할 때 한쪽을 짙게 하고 다른 쪽으로 갈 수록 차츰 엷게 나타나도록 하는 일.
+				<li>
+				<li>별솔<br>별처럼 빛나게 소나무처럼 푸르게.
+				<li>
+				<li>새결<br>새로운 물결.
+				<li>
+				<li>벙글다<br>꽃을 피우기 위해 망울이 생김.
+				<li>
+				<li>시나브로<br>모르는 사이에 조금씩 조금씩.
+				<li>
+			</ul>
+		</div>
+		<div class="sejong">
+			<div class="img-container">
+				<img src="/sejong_modi.gif" style="width: 300px; height: 500px;">
+			</div>
+		</div>
+		<div class="now">
+			<button id="chatOut" onclick="location.href='/chat/room'">채팅방
+				나가기</button>
+		</div>
+	</div>
+
+	<script src="/new.js"></script>
+	<!-- JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+	<script>
         //alert(document.title);
         // websocket &amp; stomp initialize
         var sock = new SockJS("/ws/chat");
@@ -137,14 +191,39 @@
             },
             methods: {
                 findRoom: function() {
-                    axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
+                    axios.get('/chat/room/'+this.roomId)
+                    .then(response => { this.room = response.data; });
                 },
                 sendMessage: function() {
-                    ws.send("/pub/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, talker:this.talker, message:this.message}));
+                	// 탐지하기 위해서 flask로 보내는 코드
+                	const requestBody = { message: this.message };
+                	// flask 연결 api 주소
+        				axios.post("http://172.30.1.32:5000/chat", requestBody) 
+                        .then((response) => {
+      				
+                          const isProfanity = response.data.profanity === 1;
+                          if (isProfanity) {
+                            // 욕설이 탐지되면 메시지 수정
+                          } 
+                	
+                	ws.send("/pub/chat/message", {}, JSON.stringify({
+                		type:'TALK', 
+                		roomId:this.roomId, 
+                		talker:this.talker, 
+                		message:this.message
+                		}));
+                    // 메시지 보내낸 뒤에 메시지 입력 지우기.
                     this.message = '';
+                        })
+                        .catch((error) => {
+                          console.error(error);
+                        });
                 },
                 recvMessage: function(recv) {
-                    this.messages.push({"type":recv.type,"talker":recv.type=='ENTER'?'알림':recv.talker,"message":recv.message})
+                    this.messages.push({
+                    	"type":recv.type,
+                    	"talker":recv.type=='ENTER'?'알림':recv.talker,
+                    	"message":recv.message})
                     this.scrollToBottom();
                 },
              	// 메시지를 받았을 때 스크롤을 하단으로 이동하는 함수입니다.

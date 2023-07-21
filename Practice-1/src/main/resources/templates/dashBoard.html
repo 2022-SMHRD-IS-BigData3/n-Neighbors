@@ -19,20 +19,98 @@
   <!-- CSS Just for demo purpose, don't include it in your project -->
   <link href="dashBoardStyle/demo/demo.css" rel="stylesheet" />
   <style>
-/*     #main-panel {
+    @font-face {
+    font-family: 'TheJamsil5Bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302_01@1.0/TheJamsil5Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    }
+    @font-face {
+    font-family: 'KBO-Dia-Gothic_bold';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/KBO-Dia-Gothic_bold.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    }
+    @font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    }
+    @font-face {
+    font-family: 'EBSHunMinJeongEum';
+    font-weight: 300;
+    font-style: normal;
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/ebs/EBSHunMinJeongEumLight.eot');
+    src: url('https://cdn.jsdelivr.net/gh/webfontworld/ebs/EBSHunMinJeongEumLight.eot?#iefix') format('embedded-opentype'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/ebs/EBSHunMinJeongEumLight.woff2') format('woff2'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/ebs/EBSHunMinJeongEumLight.woff') format('woff'),
+         url('https://cdn.jsdelivr.net/gh/webfontworld/ebs/EBSHunMinJeongEumLight.ttf') format("truetype");
+    font-display: swap;
+    } 
+    #main-panel {
       width: 1900px;
-    } */
+    }
+    #topRow {
+      display: flex;
+      margin-top: 30px;
+    }
+    .top.col-lg-4{
+      padding: 0px;
+    }
+    h4 {
+      font-family: "KBO-Dia-Gothic_bold";
+      font-size: 25px;
+      color: whitesmoke;
+      margin: 0;
+      padding: 10px;
+      text-align: center;
+    }
+    h5 {
+      font-family: "TheJamsil5Bold";
+      font-size: 65px;
+      color: whitesmoke;
+      text-align: center;
+    }
+    #userWarningHeaderFont{
+      font-family: "TheJamsil5Bold";
+      font-size: 17px;
+      text-align: left;
+      padding: 0px;
+      margin-right: 697px;
+    }
+    .table {
+      width:900px; 
+      height:200px; 
+      margin-left: auto;
+      margin-right: auto;
+    }
+    table th{
+      font-family: "TheJamsil5Bold";
+      font-size: 17px;
+      text-align: center;
+    }
+    table td{
+      font-family: "NanumSquareNeo-Variable";
+      text-align: center;
+    }
+    #serviceTitleFont {
+      font-family: "EBSHunMinJeongEum";
+      font-size: 30px;
+      font-weight: bold;
+      padding-left: 30px;
+    }
   </style>
   <!-- Include the ECharts file you just downloaded -->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.1.2/dist/echarts.min.js"></script>
 </head>
 
-<body class="" style="background-color: #E1E9F2">
+<body class="">
   <div class="wrapper ">
-    <div class="main-panel" style="background-color: #E1E9F2;">
+    <div class="main-panel" id="main-panel">
       <!-- Navbar -->
-      <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute">
-        <div class="container-fluid" style="background-color: aqua;">
+      <nav class="navbar navbar-expand-lg navbar-transparent  bg-primary  navbar-absolute" style="padding: 0%;">
+        <div class="container-fluid" style="background-color: #2c3e50;">
           <!-- <div class="navbar-wrapper">
             <div class="navbar-toggle">
               <button type="button" class="navbar-toggler">
@@ -58,8 +136,8 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                   <a class="dropdown-item" href="chatRoom">채팅방 이동</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
+                  <a class="dropdown-item" href="#">기능1</a>
+                  <a class="dropdown-item" href="#">기능2</a>
                 </div>
               </li>
               <li class="nav-item">
@@ -77,155 +155,128 @@
           </div>
         </div>
       </nav>
+      <div style="margin-top: 50px;" id="serviceTitle">
+        <a id="serviceTitleFont">세종대화 알림판</a>
+      </div>
       <!-- End Navbar -->
-      	<!-- <div class="panel-header panel-header-lg" style="background-color: blue;">
-      	</div> -->
-       <!-- <div class="panel-header panel-header-lg" style="background-color: white;">
-      	<div id="timeDetectionCountChart">
-        </div>
-      </div> -->
       <div class="content">
-      	<div class="row">
-          <div class="col-lg-4 top">
-            <div class="card card-chart top">
-              <div class="card-header">
-                <span style="font-weight: bold;">현재 사용자 수</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span style="font-weight: bold;">누적 사용자 수</span>
-                <br>
-              </div>
-              <div class="stats" style="text-align: right; font-size: 8px; opacity: 0.7; margin-right: 40px;">
-                <i class="now-ui-icons arrows-1_refresh-69"></i>업데이트 시간 2023-07-11 15:42:14
-              </div>
-              <div class="card-body">
-              </div>
-              </div>
-            </div>
-          <div class="col-lg-4 top">
-            <div class="card card-chart top">
-              <div class="card-header">
-                <span style="font-weight: bold;">현재 사용자 수</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span style="font-weight: bold;">누적 사용자 수</span>
-                <br>
-              </div>
-              <div class="stats" style="text-align: right; font-size: 8px; opacity: 0.7; margin-right: 40px;">
-                <i class="now-ui-icons arrows-1_refresh-69"></i>업데이트 시간 2023-07-11 15:42:14
-              </div>
-              <div class="card-body">
-              </div>
-              </div>
-            </div>
-          <div class="col-lg-4 top">
-            <div class="card card-chart top">
-              <div class="card-header">
-                <span style="font-weight: bold;">현재 사용자 수</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span style="font-weight: bold;">누적 사용자 수</span>
-                <br>
-              </div>
-              <div class="stats" style="text-align: right; font-size: 8px; opacity: 0.7; margin-right: 40px;">
-                <i class="now-ui-icons arrows-1_refresh-69"></i>업데이트 시간 2023-07-11 15:42:14
-              </div>
-              <div class="card-body">
-              </div>
+        <div id="topRow">
+          <div class="top col-lg-4">
+            <div class="card card-chart" style="width: 1525px; height: 305px; border-radius: 20px;">
+              <div class="card-body" style="margin-bottom: 0px;">
+                <div id="userCountLineChart" style="width: 1500px; height: 260px;">
+                </div>
               </div>
             </div>
           </div>
-        <div class="row">
-          <div class="col-lg-4" id="middle-1-div">
-            <div class="card card-chart" id="middle-1">
-              <div class="card-header" id="userCount">
-                <span style="font-weight: bold;">현재 사용자 수</span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span style="font-weight: bold;">누적 사용자 수</span>
-                <br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span th:text="${activeChatUserCount}" class="userCountAutoRefresh"></span>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <span th:text="${activeAccChatUserCount}" class="userCountAutoRefresh"></span>
+          <div class="col-lg-4 col-md-6" style="width: 200px;">
+            <div class="card card-chart" style="width: 315px; height: 150px; margin-left: 900px; margin-bottom: 5px; border-radius: 20px; background-color: #55E6C1;">
+              <div class="userCount">
+                <h4 class="userCountFont">현재 사용자 수</h4>
+                <h5 class="userCountResult">37</h5>
               </div>
-              <div class="stats" style="text-align: right; font-size: 8px; opacity: 0.7; margin-right: 40px;">
-                <i class="now-ui-icons arrows-1_refresh-69"></i>업데이트 시간 2023-07-11 15:42:14
+            </div><br>
+            <div class="card card-chart" style="width: 315px; height: 150px; margin-left: 900px; border-radius: 20px; background-color: #a29bfe;">
+              <div class="userCount">
+                <h4 class="userCountFont">누적 사용자 수</h4>
               </div>
-              <div class="card-body">
-                <div id="userCountLineChart" style="width: 900px; height: 300px;">
-                </div>
-              </div>
-              <div class="card-footer">
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6" id="middle-2-div">
-            <div class="card card-chart" id="middle-2">
-              <div class="card-header">
-                <h5 class="card-category">워드 클라우드</h5>
-                <h4 class="card-title">워드 클라우드</h4>
-              </div>
-              <div class="card-body">
-              	
-              </div>
-              <div class="card-footer">
-                <div class="stats">
-                  <i class="now-ui-icons ui-2_time-alarm"></i> Last 7 days
-                </div>
+              <div class="userCountResult">
+                <h5 class="userCountResult">50</h5>
               </div>
             </div>
           </div>
         </div>
         <div class="row">
-          <div class="col-lg-4" id="bottom-1-div">
-            <div class="card card-chart" id="bottom-1">
-              <div class="card-header">
-                <span style="font-weight: bold;">연령대별 비속어 횟수(막대 그래프)</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <!-- <h5 class="card-category">현재 사용자 수</h5>
-                <h4 class="card-title">현재 사용자 수</h4>
-                <h5 class="card-category">현재 사용자 수</h5>
-                <h4 class="card-title">현재 사용자 수</h4> -->
-                <div class="dropdown">
-                  <!-- <button type="button" class="btn btn-round btn-outline-default dropdown-toggle btn-simple btn-icon no-caret" data-toggle="dropdown">
-                    <i class="now-ui-icons loader_gear"></i>
-                  </button>
-                  <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <a class="dropdown-item text-danger" href="#">Remove Data</a>
-                  </div> -->
-                </div>
-              </div>
-              <div class="card-body" style="margin-bottom: 60px;">
-                <div class="chart-area">
-                  <canvas id="lineChartExample"></canvas>
-                </div>
-              </div>
-              <div class="card-footer">
-                <div class="stats">
-                  <i class="now-ui-icons arrows-1_refresh-69"></i> 업데이트 시간 2023-07-11 15:42:14
+          <div class="col-lg-4" style="margin-right: 300px;">
+            <div class="card card-chart" style="width: 920px; height: 305px; border-radius: 20px;">
+              <!-- <div class="card-header">
+                <span style="font-weight: bold;">차트1</span>
+              </div> -->
+              <div class="card-body" style="margin-bottom: 0px;">
+                <div id="chart2" style="width: 600px; height: 300px; margin-bottom: 0px;">
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-4 col-md-6" id="bottom-2-div">
-            <div class="card card-chart" id="bottom-2">
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-chart" style="width: 920px; height: 305px; border-radius: 20px;">
               <div class="card-header">
-                <h4 class="card-title">사용자 경고(비속어 많이 사용 시)</h4>
+                <h5 class="card-title">워드클라우드</h5>
               </div>
               <div class="card-body">
                 <div class="chart-area">
                   <canvas id="barChartSimpleGradientsNumbers"></canvas>
                 </div>
               </div>
-              <div class="card-footer">
-                <div class="stats">
-                  <i class="now-ui-icons ui-2_time-alarm"></i> Last 7 days
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4" style="margin-right: 300px;">
+            <div class="card card-chart" style="width: 920px; height: 355px; border-radius: 20px;">
+              <div class="card-header">
+                <span style="font-weight: bold;">연령대별 비속어 횟수(막대 그래프)</span>
+              </div>
+              <div class="card-body" style="margin-bottom: 60px;">
+                <div class="chart-area">
+                  <canvas id="lineChartExample"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <div class="card card-chart" style="width: 920px; height: 355px; border-radius: 20px;">
+              <div class="card-header" style="padding-top: 5px;">
+                <a id="userWarningHeaderFont">비속어 사용 TOP5</a>
+                <input type="submit" class="btn btn-outline-danger btn-sm" value="전송" style="font-family: TheJamsil5Bold;">
+              </div>
+              <div class="card-body" style="padding-top: 0%;" >
+                <div class="chart-area">
+                  <table class="table table-bordered table-hover">
+                    <thead style="background-color: #dfe6e9;">
+                      <th>선택</th>
+                      <th>번호</th>
+                      <th>닉네임</th>
+                      <th>횟수</th>
+                    </thead>  
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>1</td>
+                      <td>배지훈</td>
+                      <td>7</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>2</td>
+                      <td>김윤</td>
+                      <td>4</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>3</td>
+                      <td>우민철</td>
+                      <td>3</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>4</td>
+                      <td>이재혁</td>
+                      <td>2</td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>5</td>
+                      <td>이상원</td>
+                      <td>1</td>
+                    </tr>
+                  </table>
                 </div>
               </div>
             </div>
           </div>
         </div>
-       </div>
-      <footer class="footer" style="background-color: #E1E9F2">
+      </div>
+      <footer class="footer">
         <div class=" container-fluid ">
           <nav>
             <ul>
@@ -254,6 +305,7 @@
         </div>
       </footer>
     </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="dashBoardStyle/js/core/jquery.min.js"></script>
   <script src="dashBoardStyle/js/core/popper.min.js"></script>
@@ -268,31 +320,14 @@
   <!-- Control Center for Now Ui Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="dashBoardStyle/js/now-ui-dashboard.min.js?v=1.5.0" type="text/javascript"></script><!-- Now Ui Dashboard DEMO methods, don't include it in your project! -->
   <script src="dashBoardStyle/demo/demo.js"></script>
-  <!-- 현재 사용자 수 라인차트 -->
-  <script src="dashBoardStyle/charts/userCountLineChart.js"></script>
-  <!-- 시간대별 탐지 횟수 차트 -->
-  <script src="dashBoardStyle/charts/timeDetectionCountChart.js"></script>
-  <script type="text/javascript">
-	function AutoRefreshUserCount(){
-		$("#userCount").load(window.location.href + " #userCount");
-	}
-	setInterval("AutoRefreshUserCount()", 5000);
-  </script>
-<!--   <script>
-  	function userCountLineChart(){
-	  $("#userCountLineChart").load(window.location.href + "#userCountLineChart");
-  	}
-	setInterval("userCountLineChart()", 5000);
-  </script> -->
-<!--   <script>
-	function NowUserCountReload(){
-	      $("#nowUser").load(window.location.href + "#nowUser");
-	}
-	setInterval("NowUserCountReload()", 5000);
-  </script> -->
+  <script src="dashBoardStyle/js/Echarts/userCountLineChart.js"></script>
+  <script src="dashBoardStyle/js/Echarts/chart2.js"></script>
   <script>
+    $(document).ready(function() {
       // Javascript method's body can be found in assets/js/demos.js
       demo.initDashboardPageCharts();
+    });
   </script>
 </body>
+
 </html>

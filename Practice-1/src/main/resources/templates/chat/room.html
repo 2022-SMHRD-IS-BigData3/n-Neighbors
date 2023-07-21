@@ -41,7 +41,7 @@
 
         </div>
 
-        <div class="input-group">
+        <div class="input-group" style="width: 100%">
 
             <div class="input-group-prepend">
 
@@ -53,7 +53,8 @@
 
             <div class="input-group-append">
 
-                <button class="btn btn-primary" type="button" @click="createRoom">대화방 개설</button>
+                <button class="btn btn-primary" type="button" @click="createRoom" style="width:110px">대화방 개설</button>
+                <button class="btn btn-warning" type="button" onclick="location.href='index'" style="width:110px">나가기</button>
 
             </div>
 
@@ -147,12 +148,10 @@
 
                     var talker = prompt('닉네임을 입력해 주세요.');
                     var userAges = prompt('나이를 입력해 주세요.');
-
                     if(talker != "") {
                         localStorage.setItem('wschat.talker',talker);
                         localStorage.setItem('wschat.userAges',userAges);
                         localStorage.setItem('wschat.roomId',roomId);
-
                         location.href="/chat/room/enter/"+roomId+"&"+talker+"&"+userAges;
 
                     }

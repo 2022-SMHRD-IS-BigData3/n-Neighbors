@@ -2,14 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Document</title>
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>세종대화</title>
 <link rel="stylesheet" href="/new.css">
-<link rel="stylesheet" href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
 <style>
 [v-cloak] {
-    display: none;
-    }
+	display: none;
+}
 </style>
 </head>
 <body>
@@ -108,15 +110,20 @@
 	            <button id="chatOut" onclick="location.href='/chat/room'">대화방 나가기</button>
 	        </div>
     </div>
+	
+	
 
-	 <script src="/new.js"></script>
-<!-- JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-   
-   <script>
+	<script src="/new.js"></script>
+	<!-- JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+
+	<script>
         //alert(document.title);
         // websocket &amp; stomp initialize
         var sock = new SockJS("/ws/chat");
@@ -141,14 +148,39 @@
             },
             methods: {
                 findRoom: function() {
-                    axios.get('/chat/room/'+this.roomId).then(response => { this.room = response.data; });
+                    axios.get('/chat/room/'+this.roomId)
+                    .then(response => { this.room = response.data; });
                 },
                 sendMessage: function() {
-                    ws.send("/pub/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, talker:this.talker, message:this.message}));
+                	// 탐지하기 위해서 flask로 보내는 코드
+                	const requestBody = { message: this.message };
+                	// flask 연결 api 주소
+        				axios.post("http://172.30.1.32:5000/chat", requestBody) 
+                        .then((response) => {
+      				
+                          const isProfanity = response.data.profanity === 1;
+                          if (isProfanity) {
+                            // 욕설이 탐지되면 메시지 수정
+                          } 
+                	
+                	ws.send("/pub/chat/message", {}, JSON.stringify({
+                		type:'TALK', 
+                		roomId:this.roomId, 
+                		talker:this.talker, 
+                		message:this.message
+                		}));
+                    // 메시지 보내낸 뒤에 메시지 입력 지우기.
                     this.message = '';
+                        })
+                        .catch((error) => {
+                          console.error(error);
+                        });
                 },
                 recvMessage: function(recv) {
-                    this.messages.push({"type":recv.type,"talker":recv.type=='ENTER'?'알림':recv.talker,"message":recv.message})
+                    this.messages.push({
+                    	"type":recv.type,
+                    	"talker":recv.type=='ENTER'?'알림':recv.talker,
+                    	"message":recv.message})
                     this.scrollToBottom();
                 },
              	// 메시지를 받았을 때 스크롤을 하단으로 이동하는 함수입니다.

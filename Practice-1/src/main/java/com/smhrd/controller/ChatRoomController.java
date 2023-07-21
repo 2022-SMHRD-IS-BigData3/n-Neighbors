@@ -23,32 +23,42 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/chat")
+//@RequestMapping("/chat")
 public class ChatRoomController {
 	private final ChatRoomRepository chatRoomRepository;
 	private final UserRepository userRepository;
 	
+//	@GetMapping("/logout")
+//	public String logOut() {
+//		return "index";
+//	}
+	
+//	@GetMapping("/index")
+//	public String index() {
+//		return "index";
+//	}
+	
 	// 채팅 리스트 화면
-    @GetMapping("/room")
+    @GetMapping("/chat/room")
     public String rooms(Model model) {
         return "/chat/room";
     }
     
     // 채팅 리스트 화면
-    @GetMapping("/roomdetail_sub")
+    @GetMapping("/chat/roomdetail_sub")
     public String roomdetail_sub(Model model) {
     	return "/chat/roomdetail_sub";
     }
 
     // 모든 채팅방 목록 반환
-    @GetMapping("/rooms")
+    @GetMapping("/chat/rooms")
     @ResponseBody
     public List<ChatRoom> room() {
         return chatRoomRepository.findAllRoom();
     }
 
     // 채팅방 생성
-    @PostMapping("/room")
+    @PostMapping("/chat/room")
     @ResponseBody
     public ChatRoom createRoom(@RequestParam String name) {
         return chatRoomRepository.createChatRoom(name);
@@ -56,7 +66,7 @@ public class ChatRoomController {
 
     // 채팅방 입장 화면
     //@DeleteMapping("/{talker}")
-    @GetMapping("/room/enter/{roomId}&{talker}&{userAges}")
+    @GetMapping("/chat/room/enter/{roomId}&{talker}&{userAges}")
     public String roomDetail(Model model, @PathVariable String roomId, @PathVariable String talker, @PathVariable String userAges, HttpSession session, tb_user user) {
     	System.out.println("룸 아이디??"+roomId);
     	System.out.println("유저??"+talker);
@@ -81,7 +91,7 @@ public class ChatRoomController {
     }
 
     // 특정 채팅방 조회
-    @GetMapping("/room/{roomId}")
+    @GetMapping("/chat/room/{roomId}")
     @ResponseBody
     public ChatRoom roomInfo(@PathVariable String roomId) {
         return chatRoomRepository.findRoomById(roomId);

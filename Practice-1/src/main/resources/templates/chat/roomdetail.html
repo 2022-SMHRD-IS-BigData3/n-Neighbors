@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
@@ -17,6 +17,9 @@
        <section class="msger">
          <div class="container" id="app" v-cloak style="padding: 0px; max-width: 1300px;">
            <header class="msger-header">
+           	 <div class="nowUser">
+	            <h3>현재 접속자 수 : {{ connectedUsers }}명</h3>
+	         </div>
              <div class="msger-header-title">
                <i class="chatroom"></i>{{room.name}}
              </div>
@@ -45,7 +48,7 @@
        
        <div class="left-div">
 	        <div class="now">
-	            <h3>현재 접속자 수 : 15명</h3>
+	            <h3>2023-07-21 14:23:33</h3>
 	        </div>
 	       <div class="slider-container">
             <h3 style="padding-top: 10px">순우리말 알아보기</h3>
@@ -102,7 +105,7 @@
 	            </div>
 	        </div>
 	        <div class="now">
-	            <button id="chatOut" onclick="location.href='/chat/room'">채팅방 나가기</button>
+	            <button id="chatOut" onclick="location.href='/chat/room'">대화방 나가기</button>
 	        </div>
     </div>
 
@@ -124,6 +127,7 @@
         var vm = new Vue({
             el: '#app',
             data: {
+            	connectedUsers: 0, // 현재 접속자 수를 저장할 변수 추가
                 roomId: '',
                 room: {},
                 talker: '',
@@ -161,6 +165,14 @@
                     var recv = JSON.parse(message.body);
                     vm.recvMessage(recv);
                 });
+             	// 접속자 수를 받아오는 구독 설정
+                ws.subscribe("/sub/connectedUsers", function(message) {
+                    vm.connectedUsers = JSON.parse(message.body);
+                });
+
+                // 처음에 접속자 수를 받아오기 위해 한 번 요청을 보냅니다.
+                ws.send("/pub/connectedUsers", {});
+                
                 ws.send("/pub/chat/message", {}, JSON.stringify({type:'ENTER', roomId:vm.$data.roomId, talker:vm.$data.talker}));
             }, function(error) {
                 if(reconnect++ <= 5) {

@@ -27,11 +27,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 		
 		registry.setApplicationDestinationPrefixes("/pub");
 	}
-    
+}   
 //    private HandshakeInterceptor getHandshakeInterceptor() {
 //        return new UserNickHandshakeInterceptor();
 //    }
-}
+
 //@Configuration
 //@EnableWebSocketMessageBroker // WebSocket 메시지 처리 활성화
 //public class WebSocketConfig implements WebSocketMessageBrokerConfigurer{

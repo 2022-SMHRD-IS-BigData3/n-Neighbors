@@ -15,7 +15,6 @@
 <body>
 <!-- <div class="container" id="app" v-cloak> -->
        <section class="msger">
-       <div id="backGround">
          <div class="container" id="app" v-cloak style="padding: 0px; max-width: 1300px;">
            <header class="msger-header">
              <div class="msger-header-title">
@@ -26,9 +25,12 @@
              </div>
            </header>
                <ul class="list-group">
-                  <li class="list-group-item" v-for="message in messages">
-                     <a>{{message.talker}} - {{message.message}}</a>
-                  </li>
+                  <li class="list-group-item" v-for="message in messages" :class="{ 'right': message.talker === talker, 'left': message.talker !== talker}">
+                  	<div>
+                  		<span class="talker">{{ "["+message.talker+"]" }}</span>
+                  		<div class="message">{{ message.message }}</div>
+                  	</div>
+            	  </li>
                </ul>
              <!--  <div></div> -->
         
@@ -39,7 +41,6 @@
                 </div>
              </div>
           </div>
-        </div>
        </section>
        
        <div class="left-div">
@@ -119,16 +120,6 @@
         var ws = Stomp.over(sock);
         var reconnect = 0;
         
-        function autoScrollIfNeeded() {
-            var chatContainer = document.querySelector('.list-group');
-            var scrollPos = chatContainer.scrollHeight - chatContainer.clientHeight;
-            var scrollThreshold = 100; // 일정 구간 값 (적절한 값으로 조정해주세요.)
-
-            if (scrollPos <= scrollThreshold) {
-                scrollChatToBottom();
-            }
-        }
-        
         // vue.js
         var vm = new Vue({
             el: '#app',
@@ -151,11 +142,15 @@
                 sendMessage: function() {
                     ws.send("/pub/chat/message", {}, JSON.stringify({type:'TALK', roomId:this.roomId, talker:this.talker, message:this.message}));
                     this.message = '';
-                    autoScrollIfNeeded();
                 },
                 recvMessage: function(recv) {
-                    this.messages.unshift({"type":recv.type,"talker":recv.type=='ENTER'?'[알림]':recv.talker,"message":recv.message})
-                    autoScrollIfNeeded();
+                    this.messages.push({"type":recv.type,"talker":recv.type=='ENTER'?'알림':recv.talker,"message":recv.message})
+                    this.scrollToBottom();
+                },
+             	// 메시지를 받았을 때 스크롤을 하단으로 이동하는 함수입니다.
+                scrollToBottom: function() {
+                  var chatContainer = document.querySelector('.msger');
+                  chatContainer.scrollTop = chatContainer.scrollHeight;
                 }
             }
         });
@@ -177,10 +172,9 @@
                     },10*1000);
                 }
             });
+            vm.scrollToBottom();
         }
         connect();
     </script>
-    
-
 </body>
 </html>

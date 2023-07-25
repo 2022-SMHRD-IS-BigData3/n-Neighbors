@@ -39,6 +39,7 @@ import com.kennycason.kumo.palette.ColorPalette;
 @RequestMapping
 public class WordCloudService {
 	
+	
 	private final ChatMessageRepository chatMessageRepository;
 	
 	@GetMapping("word")
@@ -91,12 +92,11 @@ public class WordCloudService {
 
 	private byte[] generateWordCloudImage(Map<String, Integer> wordFrequencyMap) throws IOException {
 		// 단어 클라우드 이미지의 차원 설정(x축, y축)
-		Dimension dimension = new Dimension(300, 180);
+		Dimension dimension = new Dimension(300, 200);
 		// 지정된 차원 및 충돌 모드를 사용하여 WordCloud 인스턴스 생성
 		WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);// 'CollisionMode.PIXEL_PERFECT'는 
 																					//이미지에서 단어가 겹치는 것을 방지하는 데 도움이 되는 
 																					//정확한 픽셀 수준 충돌로 단어 구름이 생성되도록 지정
-
 		System.out.println("dimension =>" + dimension);
 		System.out.println("wordCloud =>" + wordCloud);
 		
@@ -113,44 +113,26 @@ public class WordCloudService {
 		wordCloud.build(wordFrequencies); 
 		// WordFrequency 목록과 함께 build() 메서드 사용 물건들
 		System.out.println("wordFrequencies =>" + wordFrequencies);
-		
-		
-//		 // 워드클라우드 테스트용으로 저장하는 코드
-//	    String filePath = "C:\\Users\\smhrd\\Desktop\\최종프로젝트\\ChattingProject\\wordcloud.png"; // Replace YOUR_USERNAME with your actual username
-//	    Path outputPath = Paths.get(filePath);
-//
-//	    // Write the word cloud as a PNG image to the specified file path
-//	    wordCloud.writeToFile(outputPath.toString());
-//
-//	    // Read the image bytes from the file
-//	    byte[] imageBytes = Files.readAllBytes(outputPath);
-//
-//	    return imageBytes;
-		
-		
-		
-		// Write the word cloud as a PNG image to a temporary file
-	    File tempFile = File.createTempFile("wordcloud_", ".png");
-	    wordCloud.writeToFile(tempFile.getAbsolutePath());
-	    System.out.println("tempFile => "+ tempFile);
-	    // Convert the temporary file to a byte array
-	    byte[] imageBytes = Files.readAllBytes(tempFile.toPath());
-	    System.out.println("imageBytes=>" + imageBytes);
-	    // Delete the temporary file (optional)
-	    tempFile.delete();
+		// 클라우드라는 단어를 바이트 배열 출력 스트림에 PNG 이미지로 씁니다
+//		ByteArrayOutputStream imageOutputStream = new ByteArrayOutputStream();
+//		wordCloud.writeToStreamAsPNG(imageOutputStream);
+//		 // 바이트 배열 출력 스트림을 바이트 배열로 변환하고 반환
+//		return imageOutputStream.toByteArray();
+//	}
+
+		 // 워드클라우드.PNG 테스트용으로 저장하는 코드
+	    String filePath = "C:\\Users\\smhrd\\git\\n-Neighbors\\Practice-1\\src\\main\\resources\\static\\dashBoardStyle\\img\\wordcloud2.png"; // Replace YOUR_USERNAME with your actual username
+	    Path outputPath = Paths.get(filePath);
+
+	    // Write the word cloud as a PNG image to the specified file path
+	    wordCloud.writeToFile(outputPath.toString());
+
+	    // Read the image bytes from the file
+	    byte[] imageBytes = Files.readAllBytes(outputPath);
 
 	    return imageBytes;
+	}		
 		
-		
-		
-		// 클라우드라는 단어를 바이트 배열 출력 스트림에 PNG 이미지로 씁니다
-		//ByteArrayOutputStream imageOutputStream = new ByteArrayOutputStream();
-		//wordCloud.writeToStreamAsPNG(imageOutputStream);
-		// 바이트 배열 출력 스트림을 바이트 배열로 변환하고 반환
-		//return imageOutputStream.toByteArray();
-	}
-
-	
 	private List<WordFrequency> createWordFrequencies(Map<String, Integer> wordFrequencyMap) {
 		// WordFrequency 개체를 저장할 목록 만들기
 		List<WordFrequency> wordFrequencies = new ArrayList<>();
@@ -165,7 +147,6 @@ public class WordCloudService {
 		// WordFrequency 개체 목록 반환
 		return wordFrequencies;
 	}
-	
 
 }
 

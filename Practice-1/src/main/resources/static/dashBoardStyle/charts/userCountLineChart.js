@@ -1,73 +1,145 @@
-var myChart = echarts.init(document.getElementById("userCountLineChart"));
+var app = {};
 
-var option = {
-	color: ['#80FFA5'],
-	title: {
-		// text: '시간대별 실시간 사용자 수'
-	},
-	tooltip: {
-		trigger: 'axis',
-		axisPointer: {
-			type: 'cross',
-			label: {
-				backgroundColor: 'white'
-			}
-		}
-	},
-	legend: {
-		data: ['현재 사용자 수']
-	},
-	toolbox: {
-		feature: {
-			saveAsImage: {}
-		}
-	},
-	grid: {
-		left: '3%',
-		right: '4%',
-		bottom: '3%',
-		containLabel: true
-	},
-	xAxis: [
-		{
-			type: 'category',
-			boundaryGap: false,
-			data: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00']
-		}
-	],
-	yAxis: [
-		{
-			type: 'value'
-		}
-	],
-	series: [
-		{
-			name: '현재 사용자 수',
-			type: 'line',
-			stack: 'Total',
-			smooth: true,
-			lineStyle: {
-				width: 0
-			},
-			showSymbol: false,
-			areaStyle: {
-				opacity: 0.8,
-				color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-					{
-						offset: 0,
-						color: 'rgb(128, 255, 165)'
-					},
-					{
-						offset: 1,
-						color: 'rgb(1, 191, 236)'
-					}
-				])
-			},
-			emphasis: {
-				focus: 'series'
-			},
-			data: [10, 20, 30, 25, 15, 40, 37]
-		}
-	]
+var chartDom = document.getElementById('userCountLineChart');
+var myUserCountLineChart = echarts.init(chartDom, 'dark');
+var option;
+
+const categories = (function () {
+  let now = new Date();
+  let res = [];
+  let len = 10;
+  while (len--) {
+    res.unshift(now.toLocaleTimeString().replace(/^\D*/, ''));
+    now = new Date(+now - 2000);
+  }
+  return res;
+})();
+const categories2 = (function () {
+  let res = [];
+  let len = 10;
+  while (len--) {
+    res.push(10 - len - 1);
+  }
+  return res;
+})();
+const data = (function () {
+  let res = [];
+  let len = 10;
+  while (len--) {
+    res.push(Math.round(Math.random() * 1000));
+  }
+  return res;
+})();
+const data2 = (function () {
+  let res = [];
+  let len = 0;
+  while (len < 10) {
+    res.push(+(Math.random() * 10 + 5).toFixed(1));
+    len++;
+  }
+  return res;
+})();
+option = {
+  title: {
+    text: '실시간 비속어 탐지 횟수'
+  },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
+      label: {
+        backgroundColor: '#283b56'
+      }
+    }
+  },
+  legend: {},
+  toolbox: {
+    show: true,
+    feature: {
+      dataView: { readOnly: false },
+      restore: {},
+      saveAsImage: {}
+    }
+  },
+  dataZoom: {
+    show: false,
+    start: 0,
+    end: 100
+  },
+  xAxis: [
+    {
+      type: 'category',
+      boundaryGap: true,
+      data: categories
+    },
+    {
+      type: 'category',
+      boundaryGap: true,
+      data: categories2
+    }
+  ],
+  yAxis: [
+    {
+      type: 'value',
+      scale: true,
+      name: 'Price',
+      max: 30,
+      min: 0,
+      boundaryGap: [0.2, 0.2]
+    },
+    {
+      type: 'value',
+      scale: true,
+      name: 'Order',
+      max: 1200,
+      min: 0,
+      boundaryGap: [0.2, 0.2]
+    }
+  ],
+  series: [
+    {
+      name: 'Dynamic Bar',
+      type: 'bar',
+      xAxisIndex: 1,
+      yAxisIndex: 1,
+      data: data
+    },
+    {
+      name: 'Dynamic Line',
+      type: 'line',
+      data: data2
+    }
+  ]
 };
-myChart.setOption(option);
+app.count = 11;
+setInterval(function () {
+  let axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+  data.shift();
+  data.push(Math.round(Math.random() * 1000));
+  data2.shift();
+  data2.push(+(Math.random() * 10 + 5).toFixed(1));
+  categories.shift();
+  categories.push(axisData);
+  categories2.shift();
+  categories2.push(app.count++);
+  myUserCountLineChart.setOption({
+    xAxis: [
+      {
+        data: categories
+      },
+      {
+        data: categories2
+      }
+    ],
+    series: [
+      {
+        data: data
+      },
+      {
+        data: data2
+      }
+    ]
+  });
+}, 2100);
+
+option && myUserCountLineChart.setOption(option);

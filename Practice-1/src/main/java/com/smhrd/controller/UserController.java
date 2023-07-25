@@ -33,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserController {
 	@Autowired
 	private final UserRepository userRepository;
+
 	
 	@GetMapping("/userChatIn")
 	public String userChatIn(HttpServletRequest request, HttpSession session) {

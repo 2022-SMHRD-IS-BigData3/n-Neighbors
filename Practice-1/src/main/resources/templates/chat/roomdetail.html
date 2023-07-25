@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
@@ -106,13 +106,17 @@
 	                <img src="/sejong_modi.gif" style="width: 300px; height: 500px;" >
 	            </div>
 	        </div>
-	        <div class="now">
-	            <button id="chatOut" onclick="location.href='/chat/room'">대화방 나가기</button>
-	        </div>
+	        <!-- <form action="chatOut" method="get"> -->
+		        <div class="now">
+			        <form th:action="@{/chat/room/exit}" method="post">
+			            <input type="hidden" name="roomId" th:value="${roomId}" />
+			            <input type="hidden" name="userNick" th:value="${talker}" />
+			            <button id="chatOut" type="submit">대화방 나가기</button>
+			        </form>
+		        </div>
+		    <!-- </form> -->
     </div>
 	
-	
-
 	<script src="/new.js"></script>
 	<!-- JavaScript -->
 	<script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.min.js"></script>
@@ -161,7 +165,16 @@
                           const isProfanity = response.data.profanity === 1;
                           if (isProfanity) {
                             // 욕설이 탐지되면 메시지 수정
-                          } 
+                	
+                	ws.send("/pub/chat/message", {}, JSON.stringify({
+                		type:'FWORD', 
+                		roomId:this.roomId, 
+                		talker:this.talker, 
+                		message:this.message
+                		}));
+                          } else{
+                        	  
+                        	  
                 	
                 	ws.send("/pub/chat/message", {}, JSON.stringify({
                 		type:'TALK', 
@@ -169,6 +182,8 @@
                 		talker:this.talker, 
                 		message:this.message
                 		}));
+                        	  
+                          }
                     // 메시지 보내낸 뒤에 메시지 입력 지우기.
                     this.message = '';
                         })

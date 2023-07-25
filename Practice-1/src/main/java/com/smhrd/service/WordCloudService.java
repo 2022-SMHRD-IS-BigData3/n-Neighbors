@@ -11,6 +11,9 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -88,7 +91,7 @@ public class WordCloudService {
 
 	private byte[] generateWordCloudImage(Map<String, Integer> wordFrequencyMap) throws IOException {
 		// 단어 클라우드 이미지의 차원 설정(x축, y축)
-		Dimension dimension = new Dimension(30, 20);
+		Dimension dimension = new Dimension(300, 180);
 		// 지정된 차원 및 충돌 모드를 사용하여 WordCloud 인스턴스 생성
 		WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);// 'CollisionMode.PIXEL_PERFECT'는 
 																					//이미지에서 단어가 겹치는 것을 방지하는 데 도움이 되는 
@@ -101,7 +104,7 @@ public class WordCloudService {
 		wordCloud.setPadding(2); // 단어사이의 간격 설정
 		wordCloud.setColorPalette(new ColorPalette(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW));
 		// 단어 빈도수에 따라 글꼴 크기 설정. => 빈도수가 작으면 작게 크면 크게
-		wordCloud.setFontScalar(new LinearFontScalar(10, 20));
+		wordCloud.setFontScalar(new LinearFontScalar(10, 60));
 		wordCloud.setKumoFont(new KumoFont("NanumGothic", FontWeight.PLAIN));//FontWeight.PLAIN'은 글꼴이 일반(보통) 두께로 사용되도록 지정
 
 		// WordFrequency 맵에서 WordFrequency 개체 목록 만들기
@@ -110,11 +113,41 @@ public class WordCloudService {
 		wordCloud.build(wordFrequencies); 
 		// WordFrequency 목록과 함께 build() 메서드 사용 물건들
 		System.out.println("wordFrequencies =>" + wordFrequencies);
+		
+		
+//		 // 워드클라우드 테스트용으로 저장하는 코드
+//	    String filePath = "C:\\Users\\smhrd\\Desktop\\최종프로젝트\\ChattingProject\\wordcloud.png"; // Replace YOUR_USERNAME with your actual username
+//	    Path outputPath = Paths.get(filePath);
+//
+//	    // Write the word cloud as a PNG image to the specified file path
+//	    wordCloud.writeToFile(outputPath.toString());
+//
+//	    // Read the image bytes from the file
+//	    byte[] imageBytes = Files.readAllBytes(outputPath);
+//
+//	    return imageBytes;
+		
+		
+		
+		// Write the word cloud as a PNG image to a temporary file
+	    File tempFile = File.createTempFile("wordcloud_", ".png");
+	    wordCloud.writeToFile(tempFile.getAbsolutePath());
+	    System.out.println("tempFile => "+ tempFile);
+	    // Convert the temporary file to a byte array
+	    byte[] imageBytes = Files.readAllBytes(tempFile.toPath());
+	    System.out.println("imageBytes=>" + imageBytes);
+	    // Delete the temporary file (optional)
+	    tempFile.delete();
+
+	    return imageBytes;
+		
+		
+		
 		// 클라우드라는 단어를 바이트 배열 출력 스트림에 PNG 이미지로 씁니다
-		ByteArrayOutputStream imageOutputStream = new ByteArrayOutputStream();
-		wordCloud.writeToStreamAsPNG(imageOutputStream);
+		//ByteArrayOutputStream imageOutputStream = new ByteArrayOutputStream();
+		//wordCloud.writeToStreamAsPNG(imageOutputStream);
 		// 바이트 배열 출력 스트림을 바이트 배열로 변환하고 반환
-		return imageOutputStream.toByteArray();
+		//return imageOutputStream.toByteArray();
 	}
 
 	
@@ -133,7 +166,29 @@ public class WordCloudService {
 		return wordFrequencies;
 	}
 	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // // 1단계: 메시지에서 단어 빈도 계산
 //		Map<String, Integer> wordFrequencyMap = calculateWordFrequenciesForFWordMessages();

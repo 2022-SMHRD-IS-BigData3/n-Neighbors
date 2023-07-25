@@ -310,37 +310,31 @@
   </div>
   <!-- wordcloud test -->
   <div>
-        <canvas id="wordCloudCanvas" width="800" height="600"></canvas>
-    </div>
-    
-  <img id="wordCloudImage" th:src="${wordCloudImage}" alt="Word Cloud Image">
-  
+      <img id="wordCloudImage" th:src="${wordCloudImage}" alt="Word Cloud Image">
+  </div>
+  <div>
 		<img id="wordCloudImage1" th:src="'data:image/png;base64,' + ${wordCloudImage}" alt="Word Cloud Image">
+	</div>	
 		
-		<script type="text/javascript">
-        function updateWordCloud() {
-            const wordCloudImage = document.getElementById("wordCloudImage");
-            fetch("word")
-                .then(response => response.json())
-                .then(data => {
-                    const wordCloudData = Object.entries(data).map(([word, frequency]) => ({
-                        text: word,
-                        size: frequency
-                    }));
-
-                    WordCloud(document.getElementById("wordCloudCanvas"), {
-                        list: wordCloudData
-                    });
-                })
-                .catch(error => console.error("Error fetching the word cloud data:", error));
-        }
-
-        setInterval(updateWordCloud, 300000); // Refresh every 5 minutes (300,000 milliseconds)
-        updateWordCloud(); // Initial update
-    </script>
 		
 		
   	<script type="text/javascript">
+     //Function to refresh the word cloud image
+    function refreshWordCloudImage() {
+        const wordCloudImage = document.getElementById("wordCloudImage");
+        wordCloudImage.src = "word?" + new Date().getTime();
+    }
+
+    // 워드클라우드 이미지 표시
+    refreshWordCloudImage();
+
+    // 5분마다 워드 클라우드 새로고침
+    setInterval(() => {
+        refreshWordCloudImage();
+    }, 300000); // 5 minutes in milliseconds
+</script>
+  
+   	<script type="text/javascript">
      //Function to refresh the word cloud image
     function refreshWordCloudImage() {
         const wordCloudImage = document.getElementById("wordCloudImage1");
@@ -377,51 +371,6 @@
     
 
   
-  <!-- wordcloud jpeg-->
-  <script type="text/javascript">
-  
-	  function refreshWordCloudImage() {
-          const wordCloudImage = document.getElementById("wordCloudImage");
-          wordCloudImage.src = "word?" + new Date().getTime();
-      }
-
-      // Display the word cloud image initially
-      refreshWordCloudImage();
-
-      // Refresh the word cloud every 5 minutes
-      setInterval(() => {
-          refreshWordCloudImage();
-      }, 300000); 
-  
-//   5분마다 새로고침
-//      var wordCloudImage = document.getElementById("wordCloudImage");
-//      wordCloudImage.src = "/word?timestamp=" + new Date().getTime();
-//  }
-
-// Call the function on page load and set an interval to update every 5 minutes (300000 milliseconds)
-//  window.onload = function() {
-//      updateWordCloudImage();
-//      setInterval(updateWordCloudImage, 300000);
-//  };
-  
-// fetch("/word")
-//      .then(response => response.blob())
-//      .then(blob => {
-//          const objectURL = URL.createObjectURL(blob);
-//          wordCloudImage.src = objectURL;
-//      })
-//      .catch(error => console.error("Error fetching the word cloud image:", error));
-//  }
-  
-//클라우드 이미지라는 단어를 처음에 표시합니다
-//  displayWordCloudImage();
-
-  // 5분마다 클라우드라는 단어 새로 고침
-//  setInterval(() => {
-//      displayWordCloudImage();
-//  }, 300000); // <= 5분
-
-  </script>
   
   
   

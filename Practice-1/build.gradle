@@ -26,7 +26,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'javax.validation:validation-api:2.0.1.Final'
 	annotationProcessor 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -41,13 +40,13 @@ dependencies {
   	implementation 'org.webjars:stomp-websocket:2.3.3-1'
 	implementation 'org.webjars:sockjs-client:1.1.2'
 	//view
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-freemarker'
 	implementation 'org.springframework.boot:spring-boot-devtools'
 	implementation 'org.webjars.bower:bootstrap:4.3.1'
 	implementation 'org.webjars.bower:vue:2.5.16'
 	implementation 'org.webjars.bower:axios:0.17.1'
 	implementation 'com.google.code.gson:gson:2.8.0'
+
 	
 	implementation 'log4j:log4j:1.2.17'
 	// 한국어 텍스트 처리 라이브러리
@@ -58,8 +57,6 @@ dependencies {
 	// https://mvnrepository.com/artifact/kr.bydelta/koalanlp-komoran
 // https://mvnrepository.com/artifact/com.github.shin285/KOMORAN
 	implementation group: 'com.github.shin285', name: 'KOMORAN', version: '3.3.2'
-
-
 
     // wordcloud 라이브러리 
     //implementation 'com.kennycason:jwordcloud:1.0.7'//
@@ -84,6 +81,7 @@ dependencies {
 	implementation group: 'org.renjin.cran', name: 'KoNLP', version: '0.76.9-b21'
 	
     
+
 }
 
 bootJar {

@@ -23,46 +23,37 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class tb_chat {
-	public enum MessageType {
-
-        ENTER, TALK, FWORD  // 채팅 메시지의 유형을 나타내는 방식
-
-    }
+public class tb_chatroom_info {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "chat_seq")
-	private Long chatSeq;
+	@Column(name = "cr_seq")
+	private Long crSeq;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name = "user_seq", referencedColumnName = "user_seq", insertable = false, updatable = false)
-//	private tb_user userBySeq;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_nick", referencedColumnName = "user_nick", insertable = false, updatable = false)
+	private tb_user userByNick;
 	
 //	@ManyToOne(fetch = FetchType.LAZY)
 //	@JoinColumn(name = "talker", referencedColumnName = "user_nick", insertable = false, updatable = false)
 //	private tb_user userByTalker;
 	
-//	@Column(name = "user_seq")
-//	private Long userSeq;
-	
-	@Column(name = "talker")
-	private String talker;
-	@Column(name = "message")
-	private String message;
-	
-	@Column(insertable = false, columnDefinition = "datetime default now()", updatable = false)
-	private Date talk_at;
-	@Column(name = "type")
-	private MessageType type;
+	@Column(name = "user_nick")
+	private String userNick;
 	
 	@Column(name = "room_id")
 	private String roomId;
 	
-	public tb_chat(String talker, String message, String roomId) {
+	@Column(insertable = false, columnDefinition = "datetime default now()", updatable = false)
+	private Date in_date;
+	
+	private Date out_date;
+	
+	
+	public tb_chatroom_info(String userNick, String roomId, Date out_date) {
         //this.userSeq = userSeq;
-        this.talker = talker;
-        this.message = message;
+        this.userNick = userNick;
         this.roomId = roomId;
+        this.out_date = out_date;
     }
 }

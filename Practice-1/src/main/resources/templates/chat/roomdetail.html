@@ -20,7 +20,7 @@
          <div class="container" id="app" v-cloak style="padding: 0px; max-width: 1300px;">
            <header class="msger-header">
            	 <div class="nowUser">
-	            <h3>현재 접속자 수 : {{ connectedUsers }}명</h3>
+	            <h4>현재 접속자 수 : {{ connectedUsers }}명</h4>
 	         </div>
              <div class="msger-header-title">
                <i class="chatroom"></i>{{room.name}}
@@ -50,7 +50,7 @@
        
        <div class="left-div">
 	        <div class="now">
-	            <h3>2023-07-21 14:23:33</h3>
+	            <div id="current-time"> 현재시간:  <span id="time"></span></div>
 	        </div>
 	       <div class="slider-container">
             <h3 style="padding-top: 10px">순우리말 알아보기</h3>
@@ -234,6 +234,30 @@
             vm.scrollToBottom();
         }
         connect();
+        
+        
+      	// 현재시간 불러오기
+        function updateTime() {
+          var currentTime = new Date();
+          var hours = currentTime.getHours();
+          var minutes = currentTime.getMinutes();
+          var seconds = currentTime.getSeconds();
+
+          // 시간, 분, 초가 10보다 작을 경우 앞에 0을 추가하여 두 자리로 표시
+          hours = hours < 10 ? "0" + hours : hours;
+          minutes = minutes < 10 ? "0" + minutes : minutes;
+          seconds = seconds < 10 ? "0" + seconds : seconds;
+
+          var timeString = hours + ":" + minutes + ":" + seconds;
+
+          // 시간을 표시할 요소에 현재 시간 업데이트
+          document.getElementById("time").innerText = timeString;
+        }
+
+        // 매 1초마다 updateTime() 함수 호출하여 시간 업데이트
+        setInterval(updateTime, 1000);
+        
+      </script>
     </script>
 </body>
 </html>

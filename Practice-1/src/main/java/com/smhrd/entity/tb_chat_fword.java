@@ -47,7 +47,7 @@ public class tb_chat_fword {
 	@Column(name = "talker")
 	private String talker;
 	
-	@Column(name = "fuck_word")
+	@Column(name = "message")
 	private String fuckWord;
 	
 	@Column(insertable = false, columnDefinition = "datetime default now()", updatable = false)

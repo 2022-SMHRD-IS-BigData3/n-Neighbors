@@ -161,14 +161,22 @@
                           const isProfanity = response.data.profanity === 1;
                           if (isProfanity) {
                             // 욕설이 탐지되면 메시지 수정
-                          } 
+		                	ws.send("/pub/chat/message", {}, JSON.stringify({
+		                		type:'FWORD', 
+		                		roomId:this.roomId, 
+		                		talker:this.talker, 
+		                		message:this.message
+		                		}));
+                          } else{
+		                	ws.send("/pub/chat/message", {}, JSON.stringify({
+		                		type:'TALK', 
+		                		roomId:this.roomId, 
+		                		talker:this.talker, 
+		                		message:this.message
+		                		}));
+                        	  
+                          }
                 	
-                	ws.send("/pub/chat/message", {}, JSON.stringify({
-                		type:'TALK', 
-                		roomId:this.roomId, 
-                		talker:this.talker, 
-                		message:this.message
-                		}));
                     // 메시지 보내낸 뒤에 메시지 입력 지우기.
                     this.message = '';
                         })

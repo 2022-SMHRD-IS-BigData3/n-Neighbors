@@ -26,7 +26,7 @@ import lombok.Setter;
 public class tb_chat {
 	
 	public enum MessageType {
-        ENTER, TALK  // 채팅 메시지의 유형을 나타내는 방식
+        ENTER, TALK, FWORD  // 채팅 메시지의 유형을 나타내는 방식
         			// TALK : 내용이 해당 채팅방을 SUB 하고 있는 모든 클라이언트에게 전달된다.
     }
 	
@@ -48,12 +48,12 @@ public class tb_chat {
 	
 	@Column(name = "talker")
 	private String talker;
-	
+	@Column(name = "message")
 	private String message;
 	
 	@Column(insertable = false, columnDefinition = "datetime default now()", updatable = false)
 	private Date talk_at;
-	
+	@Column(name = "type")
 	private MessageType type;
 	
 	@Column(name = "room_id")

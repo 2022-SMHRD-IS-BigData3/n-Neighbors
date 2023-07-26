@@ -27,7 +27,7 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/chat")
+@RequestMapping("/chat")///chat
 public class ChatRoomController {
 	private final ChatRoomRepository chatRoomRepository;
 	private final UserRepository userRepository;

@@ -1,8 +1,13 @@
 package com.smhrd.controller;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +33,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kennycason.kumo.CollisionMode;
+import com.kennycason.kumo.WordCloud;
+import com.kennycason.kumo.WordFrequency;
+import com.kennycason.kumo.font.FontWeight;
+import com.kennycason.kumo.font.KumoFont;
+import com.kennycason.kumo.font.scale.LinearFontScalar;
+import com.kennycason.kumo.palette.ColorPalette;
 import com.smhrd.entity.tb_admin;
 import com.smhrd.entity.tb_chat;
 import com.smhrd.repository.AdminRepository;
@@ -41,7 +53,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Controller
-//@RequestMapping("admin")
 @Slf4j
 public class AdminController {
 	@Autowired
@@ -50,7 +61,6 @@ public class AdminController {
 	private final ChatRoomInfoRepository chatRoomInfoRepository;
 	@Autowired
 	private final ChatMessageRepository chatMessageRepositoy;
-	
 	@GetMapping("/index")
 	public String index() {
 		return "index";
@@ -83,71 +93,14 @@ public class AdminController {
 		Long countNowUserCount = chatRoomInfoRepository.countNowUserCount();
 		Long countNowUserAccCount = chatRoomInfoRepository.countNowUserAccCount();
 		List<Object[]> top3Ranking = chatMessageRepositoy.findTop3Ranking();
-		System.out.println("top3잘들어와??"+top3Ranking);
 		model.addAttribute("top3Ranking", top3Ranking);
 		model.addAttribute("countNowUserCount", countNowUserCount);
 		model.addAttribute("countNowUserAccCount", countNowUserAccCount);
 		return "dashBoard";
 	}
 	
-//	// 대시보드에서 사용자 수 데이터를 가져오는 엔드포인트
-//    @GetMapping("/getChartData")
-//    public ResponseEntity<Map<String, List<Long>>> getChartData() {
-//        Long countNowUserCount = chatRoomInfoRepository.countNowUserCount();
-//        Long countNowUserAccCount = chatRoomInfoRepository.countNowUserAccCount();
-//
-//        Map<String, List<Long>> data = new HashMap<>();
-//        data.put("countNowUserCount", Collections.singletonList(countNowUserCount));
-//        data.put("countNowUserAccCount", Collections.singletonList(countNowUserAccCount));
-//
-//        return ResponseEntity.ok(data);
-//    }
-	
-//    // 2초마다 흘러가는 시간 데이터 생성 메소드
-//    private List<String> getCategories() {
-//        List<String> categories = new ArrayList<>();
-//        LocalDateTime now = LocalDateTime.now();
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//
-//        for (int i = 0; i < 10; i++) {
-//            categories.add(formatter.format(now));
-//            now = now.minusSeconds(2);
-//        }
-//
-//        Collections.reverse(categories); // 역순으로 정렬하여 최근 시간부터 보여지도록 함
-//        return categories;
-//    }
 	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

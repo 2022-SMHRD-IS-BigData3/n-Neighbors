@@ -59,10 +59,13 @@ public class tb_chat {
 	@Column(name = "room_id")
 	private String roomId;
 	
-	public tb_chat(String talker, String message, String roomId) {
+	
+	
+	public tb_chat(String talker, String message, String roomId, int count) {
         //this.userSeq = userSeq;
         this.talker = talker;
         this.message = message;
         this.roomId = roomId;
+        
     }
 }

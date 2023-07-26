@@ -11,6 +11,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.RestTemplate;
@@ -40,26 +41,29 @@ public class ChatController {
     	// Flask API로 메시지 보내기 및 욕설 상태 수신
     			HttpHeaders headers = new HttpHeaders();
     			headers.setContentType(MediaType.APPLICATION_JSON);
-    			System.out.println("들어오니?");
     			String apiUrl = "http://172.30.1.32:5000/chat"; // API URL
     			String requestBody = "{\"message\": \"" + message.getMessage() + "\"}";// 메시지 내용으로 요청 본문 만들기
-    			System.out.println("여기로 왔니?");
 
     			HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
     			ResponseEntity<Map> responseEntity = restTemplate.exchange(apiUrl, HttpMethod.POST , requestEntity, Map.class); // post 형태로 요청보냄
-
+    			
     			if (responseEntity.getStatusCode().is2xxSuccessful()) { // 응답 상태 코드가 성공적일경우 
     				Map<String, Object> responseBody = responseEntity.getBody(); // 응답된 본문 매핑
     				int profanityStatus = (int) responseBody.get("profanity"); // 본문에서 욕설 상태를 추출
-
+    				
     				// 욕설 상태 처리 및 메시지 수정
     				if (profanityStatus == 1) {
+    					
     					chatMessageRepository.save(message);
     					String randomWord = getRandomWord();
     					message.setMessage(randomWord); // 욕설감지가 되었을 경우 list에 있는 임의의 단어 대체
     					sendingOperations.convertAndSend("/sub/chat/room/" + message.getRoomId(), message); // 메시지 전송
+    					
+    					
     				} else {
     					sendingOperations.convertAndSend("/sub/chat/room/" + message.getRoomId(), message); // 아닐 경우 사용자가 입력한
+    					
+    					
     																											// 메시지 전송
     					chatMessageRepository.save(message);
     				}
@@ -80,5 +84,7 @@ public class ChatController {
     			return wordList.get(index);
     		}
     	
+    		
+    		
 
 }

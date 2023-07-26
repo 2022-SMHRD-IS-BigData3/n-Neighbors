@@ -1,5 +1,6 @@
 package com.smhrd.controller;
 
+import com.smhrd.repository.ChatMessageRepository;
 import com.smhrd.repository.ChatRoomInfoRepository;
 import com.smhrd.service.DataService;
 
@@ -18,6 +19,9 @@ public class ChartController {
 	
 	@Autowired
     private ChatRoomInfoRepository chatRoomInfoRepository;
+	@Autowired
+	private ChatMessageRepository chatRepository;
+	
 
     @GetMapping("/userAgesCount")
     public List<Map<String, Object>> getChartData() {
@@ -29,8 +33,8 @@ public class ChartController {
         return chatRoomInfoRepository.getAgeGroupFwordCount();
     }
     
-//    @GetMapping("/userAgesCount")
-//    public String dashBoard() {
-//    	return "dashBoard";
+//    public List<Map<String, Object>> getFwordCount(){
+//    	return chatRepository;
 //    }
+    
 }

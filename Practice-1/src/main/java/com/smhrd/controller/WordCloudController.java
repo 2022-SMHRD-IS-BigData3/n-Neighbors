@@ -1,4 +1,4 @@
-package com.smhrd.service;
+package com.smhrd.controller;
 
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
@@ -7,6 +7,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.imageio.ImageIO;
 import java.io.File;
@@ -14,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,38 +33,28 @@ import com.kennycason.kumo.font.KumoFont;
 import com.kennycason.kumo.font.scale.LinearFontScalar;
 import com.kennycason.kumo.palette.ColorPalette;
 
-//"javax.imageio.IIOException: Invalid argument to native writeImage" indicates that there is an issue with writing the image data using the ImageIO library.
-// javax.imageio.IIOException: Invalid argument to native writeImage
-@Service
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
-public class WordCloudService {
-	
+public class WordCloudController {
+	//페이지 들어오면 
+	//자동으로 비동기 요청 --> (RestController)워드클라우드 만들어서 json 형식으로 응답 --> js를 이용해서 src 에 집어넣기
 	
 	private final ChatMessageRepository chatMessageRepository;
-	
 	@GetMapping("word")
-	public String displayWordCloud(Model model) throws IOException {
+	public ResponseEntity<Map<String, String>> getWordCloudImage() throws IOException {
+        Map<String, String> response = new HashMap<>();
 
-		// 1단계: 메시지에서 단어 빈도 계산
-		Map<String, Integer> wordFrequencyMap = calculateWordFrequenciesForFWordMessages();
+    	// 1단계: 메시지에서 단어 빈도 계산
+        Map<String, Integer> wordFrequencyMap = calculateWordFrequenciesForFWordMessages();
 		// 2단계: 워드 주파수 맵을 사용하여 워드 클라우드 이미지 생성
 		byte[] wordCloudImage = generateWordCloudImage(wordFrequencyMap);
-
-		System.out.println("wordCloudImage => " + wordCloudImage);
 		// 3단계: 바이트 배열을 base64 인코딩 문자열로 변환
 		String base64Image = Base64.getEncoder().encodeToString(wordCloudImage);
-
-		System.out.println("base64Image =>" + base64Image);
 		// 4단계: Thymeleaf 템플릿에 표시할 Base64 인코딩 이미지를 모델에 추가합니다
-		model.addAttribute("wordCloudImage", base64Image);
-		// 5단계: 단어를 표시할 Thymeleaf 템플릿의 이름을 반환합니다 구름
+        response.put("wordCloudImage", base64Image);
 
-		return "dashBoard";
-		
-	}
-	
+        return ResponseEntity.ok(response);
+    }
 	
 	private Map<String, Integer> calculateWordFrequenciesForFWordMessages() {
 		// 단어 빈도를 저장할 지도 만들기
@@ -73,22 +65,18 @@ public class WordCloudService {
 
 		for (tb_chat message : fwordMessages) {
 			String textData = message.getMessage();
-			System.out.println("textData =>" + textData);
 			// 텍스트 데이터에서 알파벳이 아닌 문자 및 공백 제거
 			textData = textData.replaceAll("[^a-zA-Z가-힣 ]", "");
 			// 텍스트를 개별 단어로 분할
 			String[] words = textData.split("\\s+");
-			System.out.println("words =>" + words);
 			// 각 단어의 발생 횟수 카운트 및 빈도 맵 업데이트
 			for (String word : words) {
 				wordFrequencyMap.put(word, wordFrequencyMap.getOrDefault(word, 0) + 1);
-				System.out.println("반복문 =>" + wordFrequencyMap.put(word, wordFrequencyMap.getOrDefault(word, 0) + 1));
 			}
 		}
 		return wordFrequencyMap;
 	}
 
-	
 
 	private byte[] generateWordCloudImage(Map<String, Integer> wordFrequencyMap) throws IOException {
 		// 단어 클라우드 이미지의 차원 설정(x축, y축)
@@ -97,58 +85,36 @@ public class WordCloudService {
 		WordCloud wordCloud = new WordCloud(dimension, CollisionMode.PIXEL_PERFECT);// 'CollisionMode.PIXEL_PERFECT'는 
 																					//이미지에서 단어가 겹치는 것을 방지하는 데 도움이 되는 
 																					//정확한 픽셀 수준 충돌로 단어 구름이 생성되도록 지정
-		System.out.println("dimension =>" + dimension);
-		System.out.println("wordCloud =>" + wordCloud);
-		
 		// 단어 클라우드의 속성 설정
 		wordCloud.setPadding(2); // 단어사이의 간격 설정
 		wordCloud.setColorPalette(new ColorPalette(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW));
 		// 단어 빈도수에 따라 글꼴 크기 설정. => 빈도수가 작으면 작게 크면 크게
 		wordCloud.setFontScalar(new LinearFontScalar(10, 60));
 		wordCloud.setKumoFont(new KumoFont("NanumGothic", FontWeight.PLAIN));//FontWeight.PLAIN'은 글꼴이 일반(보통) 두께로 사용되도록 지정
-
-		// WordFrequency 맵에서 WordFrequency 개체 목록 만들기
-		List<WordFrequency> wordFrequencies = createWordFrequencies(wordFrequencyMap);
-		// WordFrequency 개체 목록을 사용하여 Word 클라우드 구축
-		wordCloud.build(wordFrequencies); 
-		// WordFrequency 목록과 함께 build() 메서드 사용 물건들
-		System.out.println("wordFrequencies =>" + wordFrequencies);
-		// 클라우드라는 단어를 바이트 배열 출력 스트림에 PNG 이미지로 씁니다
-//		ByteArrayOutputStream imageOutputStream = new ByteArrayOutputStream();
-//		wordCloud.writeToStreamAsPNG(imageOutputStream);
-//		 // 바이트 배열 출력 스트림을 바이트 배열로 변환하고 반환
-//		return imageOutputStream.toByteArray();
-//	}
-
-		 // 워드클라우드.PNG 테스트용으로 저장하는 코드
-	    String filePath = "C:\\Users\\smhrd\\git\\n-Neighbors\\Practice-1\\src\\main\\resources\\static\\dashBoardStyle\\img\\wordcloud2.png"; // Replace YOUR_USERNAME with your actual username
-	    Path outputPath = Paths.get(filePath);
-
-	    // Write the word cloud as a PNG image to the specified file path
-	    wordCloud.writeToFile(outputPath.toString());
-
-	    // Read the image bytes from the file
-	    byte[] imageBytes = Files.readAllBytes(outputPath);
-
-	    return imageBytes;
-	}		
-		
-	private List<WordFrequency> createWordFrequencies(Map<String, Integer> wordFrequencyMap) {
-		// WordFrequency 개체를 저장할 목록 만들기
-		List<WordFrequency> wordFrequencies = new ArrayList<>();
-		// 단어 빈도 맵을 반복하고 각 항목을 WordFrequency 개체로 변환합니다
-		for (Map.Entry<String, Integer> entry : wordFrequencyMap.entrySet()) {
-			String word = entry.getKey();
-			System.out.println("word+entry=>" + word);
-			int frequency = entry.getValue();
-			System.out.println("frequency=>" + frequency);
-			wordFrequencies.add(new WordFrequency(word, frequency));
-		}
-		// WordFrequency 개체 목록 반환
-		return wordFrequencies;
-	}
-
+		// Java 스트림을 사용하여 WordFrequencyMap에서 WordFrequency 객체 목록 만들기
+		List<WordFrequency> wordFrequencies = wordFrequencyMap.entrySet().stream()
+                .map(entry -> new WordFrequency(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+		// WordFrequency 개체 목록을 사용하여 워드 클라우드 구축
+        wordCloud.build(wordFrequencies);
+        // 워드 클라우드의 버퍼 이미지 표현 가져오기
+        BufferedImage bufferedImage = wordCloud.getBufferedImage();
+        // 이미지 데이터를 저장할 ByteArrayOutputStream 생성
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            // ByteArrayOutputStream에 PNG 이미지로 버퍼링된 이미지 쓰기
+            ImageIO.write(bufferedImage, "png", outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        // ByteArrayOutputStream을 바이트 배열로 변환하여 반환
+        return outputStream.toByteArray();
+    }
 }
+		
+
+
+
 
 
 

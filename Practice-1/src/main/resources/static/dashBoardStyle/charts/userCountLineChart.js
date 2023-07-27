@@ -109,10 +109,11 @@ option = {
   series: [
   
     {
-      name: 'Dynamic Line',
+      //name: 'Dynamic Line',
       type: 'line',//선 차트 유형
 	  areaStyle: {}, //선 차트의 영역 스타일
-      data: data	//선 차트의 초기 데이터
+      data: data,	//선 차트의 초기 데이터
+      itemStyle : { normal : { color:'#3ba272', lineStyle:{ color:'#3ba272' }}} // 3ba272 초록색
     }
   ]
 };

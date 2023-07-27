@@ -75,6 +75,11 @@ function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }*/
 
+
+
+
+
+
 // 순우리말 슬라이드
 
 const slider = document.querySelector('.slider-list');
@@ -115,8 +120,8 @@ function prevSlide() {
 shuffleSlides();
 
 // 일정 간격으로 슬라이드 이동
-setInterval(nextSlide, 1500);
+setInterval(nextSlide, 1300);
 
 // 화살표 버튼을 클릭하면 슬라이드 이동
 document.getElementById('prevBtn').addEventListener('click', prevSlide);
-document.getElementById('nextBtn').addEventListener('click', nextSlide);
+document.getElementById('nextBtn').addEventListener('click', nextSlide); 

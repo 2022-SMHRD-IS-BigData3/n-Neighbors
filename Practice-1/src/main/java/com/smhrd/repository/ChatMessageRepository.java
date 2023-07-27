@@ -22,8 +22,8 @@ public interface ChatMessageRepository extends JpaRepository<tb_chat, Long>{   /
             "            FROM tb_chat " +
             "            WHERE type = 2 " +
             "            GROUP BY talker) ranked) ranked_with_ranking " +
-            "WHERE ranking <= 3", nativeQuery = true)
-     List<Object[]> findTop3Ranking();
+            "WHERE ranking <= 5", nativeQuery = true)
+     List<Object[]> findTop5Ranking();
      
 //     @Query(value = "")
 //     List<Object[]> findFword();

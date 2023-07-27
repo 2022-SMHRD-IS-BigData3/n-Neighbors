@@ -3,167 +3,215 @@
 
 <html lang="en">
 
-  <head>
 
-    <title>Websocket Chat</title>
+<head>
 
-    <meta charset="utf-8">
+  <title>세종대화</title>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
 
-    <!-- CSS -->
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" href="/favicon.ico">
+  <style>
+  
+  @font-face {
+    font-family: 'EBSHunminjeongeumSBA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/EBSHunminjeongeum.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
-    <link rel="stylesheet" href="/webjars/bootstrap/4.3.1/dist/css/bootstrap.min.css">
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    }
 
-    <style>
+    input[type="text"].form-control {
+      width: 70%;
+      min-width: 250px;
+    }
 
-      [v-cloak] {
+    [v-cloak] {
+      display: none;
+    }
 
-          display: none;
+    /* Custom styles for the chatroom container */
+    .container {
+      margin-top: 30px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color:rgba(0, 0, 0, 0.2);
+      background-size: cover;
+    }
 
-      }
+    /* Set the background color of the body to red */
+    body {
+      background-image:url("/introBackground.png");
+    }
 
-    </style>
+    /* Custom styles for the header */
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    #title {
+    font-family: 'EBSHunminjeongeumSBA';
+    font-size: 50px;
+    color: white;
+    }
 
-  </head>
+    .header img {
+      width: 50px;
+      margin-right: 10px;
+    }
 
-  <body>
+    .header h3 {
+      font-family: 'Arial', sans-serif;
+      font-size: 28px;
+      font-weight: bold;
+      color: #40444a;
+      margin: 0;
+    }
 
-    <div class="container" id="app" v-cloak>
+    /* Custom styles for the input group */
+    .input-group {
+      margin-bottom:10px;
+      border: 1px;
+    }
 
-        <div class="row">
+    .input-group-prepend label {
+      font-weight: bold;
+    }
 
-            <div class="col-md-12">
+    .input-group-append button {
+      width: 110px;
+    }
 
-                <h3>대화방 리스트</h3>
+    /* Custom styles for the chatroom list */
+    .list-group-item {
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
 
-            </div>
+    .list-group-item:hover {
+      background-color: #f1f1f1;
+    }
+    
+    .btncreate { 
+    background-color:#e55039;
+    color:white;
+    border:none;
+    border-top-right-radius:5px;
+    border-bottom-right-radius:5px;
+    font-family: 'NanumSquareNeo-Variable';
+    font-size: 15px;  
+    
+    }
+    
+    .input-group-text {
+    font-family: 'NanumSquareNeo-Variable';
+    font-size: 15px; 
+    }
+    
+    .list-group-item {
+     font-family: 'NanumSquareNeo-Variable';
+    }
+    
+  </style>
+</head>
 
-        </div>
-
-        <div class="input-group" style="width: 100%">
-
-            <div class="input-group-prepend">
-
-                <label class="input-group-text">방제목</label>
-<img alt="" src="">
-            </div>
-
-            <input type="text" class="form-control" v-model="room_name" v-on:keyup.enter="createRoom">
-
-            <div class="input-group-append">
-
-                <button class="btn btn-primary" type="button" @click="createRoom" style="width:110px">대화방 개설</button>
-                <button class="btn btn-warning" type="button" onclick="location.href='index'" style="width:110px">나가기</button>
-
-            </div>
-
-        </div>
-
-        <ul class="list-group">
-
-            <li class="list-group-item list-group-item-action" v-for="item in chatrooms" v-bind:key="item.roomId" v-on:click="enterRoom(item.roomId)">
-
-                {{item.name}}
-
-            </li>
-
-        </ul>
-
+<body>
+  <div class="container" id="app" v-cloak>
+    <div class="header">
+    <br><br>
+      <span id="title">대화방 목록</span><br><br>
     </div>
 
-    <!-- JavaScript -->
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <label class="input-group-text">방제목</label><br>
+        <img alt="" src="">
+      </div>
+      <input type="text" class="form-control" v-model="room_name" v-on:keyup.enter="createRoom">
+      
+     
+<div class="input-group-append ml-auto">
+        <button class="btncreate" type="button" @click="createRoom">생성하기</button>
+      </div>
+    </div>
 
-    <script src="/webjars/vue/2.5.16/dist/vue.min.js"></script>
+    <ul class="list-group">
+      
+     
+<li class="list-group-item list-group-item-action" v-for="item in chatrooms" v-bind:key="item.roomId"
+        v-on:click="enterRoom(item.roomId)">
+        {{item.name}}
+      </li>
+    </ul>
 
-    <script src="/webjars/axios/0.17.1/dist/axios.min.js"></script>
+  </div>
 
-    <script>
+  
 
-        var vm = new Vue({
-
-            el: '#app',
-
-            data: {
-
-                room_name : '',
-
-                chatrooms: [
-
-                ]
-
-            },
-
-            created() {
-
-                this.findAllRoom();
-
-            },
-
-            methods: {
-
-                findAllRoom: function() {
-
-                    axios.get('/chat/rooms').then(response => { this.chatrooms = response.data; });
-
-                },
-
-                createRoom: function() {
-
-                    if("" === this.room_name) {
-
-                        alert("방 제목을 입력해 주십시요.");
-
-                        return;
-
-                    } else {
-
-                        var params = new URLSearchParams();
-
-                        params.append("name",this.room_name);
-
-                        axios.post('/chat/room', params)
-
-                        .then(
-
-                            response => {
-
-                                alert(response.data.name+"방 개설에 성공하였습니다.")
-
-                                this.room_name = '';
-
-                                this.findAllRoom();
-
-                            }
-
-                        )
-
-                        .catch( response => { alert("채팅방 개설에 실패하였습니다."); } );
-
-                    }
-
-                },
-				
-                enterRoom: function(roomId) {
-
-                    var talker = prompt('닉네임을 입력해 주세요.');
-                    var userAges = prompt('나이를 입력해 주세요.');
-                    if(talker != "") {
-                        localStorage.setItem('wschat.talker',talker);
-                        localStorage.setItem('wschat.userAges',userAges);
-                        localStorage.setItem('wschat.roomId',roomId);
-                        location.href="/chat/room/enter/"+roomId+"&"+talker+"&"+userAges;
-
-                    }
-
+ 
+<!-- JavaScript -->
+  <script src="/webjars/vue/2.5.16/dist/vue.min.js"></script>
+  <script src="/webjars/axios/0.17.1/dist/axios.min.js"></script>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        room_name: '',
+        chatrooms: []
+      },
+      created() {
+        this.findAllRoom();
+      },
+      methods: {
+        findAllRoom: function () {
+          axios.get('/chat/rooms').then(response => { this.chatrooms = response.data; });
+        },
+        createRoom: function () {
+          if ("" === this.room_name) {
+            alert("방 제목을 입력해 주십시요.");
+            return;
+          } else {
+            var params = new URLSearchParams();
+            params.append("name", this.room_name);
+            axios.post('/chat/room', params)
+              .then(
+                response => {
+                  alert(response.data.name + "방 개설에 성공하였습니다.")
+                  this.room_name = '';
+                  this.findAllRoom();
                 }
-
-            }
-
-        });
-
-    </script>
-
-  </body>
+              )
+              .catch(response => { alert("채팅방 개설에 실패하였습니다."); });
+          }
+        },
+        enterRoom: function (roomId) {
+          var talker = prompt('닉네임을 입력해 주세요.');
+          var userAges = prompt('나이를 입력해 주세요.');
+          if (talker != "") {
+            localStorage.setItem('wschat.talker', talker);
+            localStorage.setItem('wschat.userAges', userAges);
+            localStorage.setItem('wschat.roomId', roomId);
+            location.href = "/chat/room/enter/" + roomId + "&" + talker + "&" + userAges;
+          }
+        }
+      }
+    });
+  </script>
+</body>
 
 </html>

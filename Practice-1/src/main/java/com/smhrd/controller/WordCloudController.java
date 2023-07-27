@@ -87,7 +87,7 @@ public class WordCloudController {
 																					//정확한 픽셀 수준 충돌로 단어 구름이 생성되도록 지정
 		// 단어 클라우드의 속성 설정
 		wordCloud.setPadding(2); // 단어사이의 간격 설정
-		wordCloud.setColorPalette(new ColorPalette(Color.RED, Color.GREEN, Color.BLUE, Color.YELLOW));
+		wordCloud.setColorPalette(new ColorPalette(new Color(0xFF6E76), new Color(0xFFDD60), new Color(0x05C091), new Color(0x58D9F9)));
 		// 단어 빈도수에 따라 글꼴 크기 설정. => 빈도수가 작으면 작게 크면 크게
 		wordCloud.setFontScalar(new LinearFontScalar(10, 60));
 		wordCloud.setKumoFont(new KumoFont("NanumGothic", FontWeight.PLAIN));//FontWeight.PLAIN'은 글꼴이 일반(보통) 두께로 사용되도록 지정

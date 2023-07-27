@@ -62,7 +62,7 @@ dependencies {
     //implementation 'com.kennycason:jwordcloud:1.0.7'//
     //implementation 'com.kennycason:kumo-core:1.13'//
     //implementation 'com.kennycason:kumo-core:2.3.0'
-    implementation files("C:/Users/smhrd/Desktop/최종프로젝트/jar_files/kumo-1.8.jar")
+    implementation files("C:/Users/smhrd/Desktop/최종프로젝트/kumo-1.8.jar")
     //implementation 'org.mozilla:rhino:1.7.13'//
     //implementation 'org.bitbucket.eunjeon:seunjeon:2.1.3'//
     //implementation 'org.bitbucket.eunjeon:seunjeon-dic:2.0.0'//
@@ -79,6 +79,8 @@ dependencies {
 	
 	// https://mvnrepository.com/artifact/org.renjin.cran/KoNLP
 	implementation group: 'org.renjin.cran', name: 'KoNLP', version: '0.76.9-b21'
+	
+
 	
     
 

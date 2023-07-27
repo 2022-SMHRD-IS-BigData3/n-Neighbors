@@ -92,8 +92,8 @@ public class AdminController {
 	public String dashBoard(Model model) {
 		Long countNowUserCount = chatRoomInfoRepository.countNowUserCount();
 		Long countNowUserAccCount = chatRoomInfoRepository.countNowUserAccCount();
-		List<Object[]> top3Ranking = chatMessageRepositoy.findTop3Ranking();
-		model.addAttribute("top3Ranking", top3Ranking);
+		List<Object[]> top5Ranking = chatMessageRepositoy.findTop5Ranking();
+		model.addAttribute("top5Ranking", top5Ranking);
 		model.addAttribute("countNowUserCount", countNowUserCount);
 		model.addAttribute("countNowUserAccCount", countNowUserAccCount);
 		return "dashBoard";

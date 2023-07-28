@@ -76,10 +76,10 @@
     }
     #userWarningHeaderFont{
       font-family: "TheJamsil5Bold";
-      font-size: 17px;
+      font-size: 19px;
       text-align: center;
       color: whitesmoke;
-      displat: flex;
+      /* display: flex; */
     }
     .table {
       width:900px; 
@@ -173,7 +173,7 @@
                   </p>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                  <a class="dropdown-item" href="chatRoom">채팅방 이동</a>
+                  <a class="dropdown-item" href="/chat/room">채팅방 이동</a>
                 </div>
               </li>
               <li class="nav-item">
@@ -293,25 +293,24 @@
   
   
 
-	<script type="text/javascript">
-	 // 워드 클라우드 이미지를 새로 고치는 기능
-    function refreshWordCloudImage() {
-        const wordCloudImage = document.getElementById("wordCloudImage");
-        fetch("/word") // 서버에 비동기 요청하기
-            .then(response => response.json()) // JSON 응답 구문 분석
-            .then(data => {
-                // Base64 인코딩된 이미지 데이터를 img 태그의 src 속성으로 설정
-                wordCloudImage.src = "data:image/png;base64," + data.wordCloudImage;
-            })
-            .catch(error => {
-                console.error("Error fetching word cloud image:", error);
-            });
-    }
-    // 페이지가 로드될 때 워드 클라우드 이미지 표시
-    refreshWordCloudImage();
-    // 5분마다 워드 클라우드 새로 고침
-    setInterval(refreshWordCloudImage, 10000); // 
-	
+	<script>
+		 // 워드 클라우드 이미지를 새로 고치는 기능
+	    function refreshWordCloudImage() {
+	        const wordCloudImage = document.getElementById("wordCloudImage");
+	        fetch("/word") // 서버에 비동기 요청하기
+	            .then(response => response.json()) // JSON 응답 구문 분석
+	            .then(data => {
+	                // Base64 인코딩된 이미지 데이터를 img 태그의 src 속성으로 설정
+	                wordCloudImage.src = "data:image/png;base64," + data.wordCloudImage;
+	            })
+	            .catch(error => {
+	                console.error("Error fetching word cloud image:", error);
+	            });
+	    }
+	    // 페이지가 로드될 때 워드 클라우드 이미지 표시
+	    refreshWordCloudImage();
+	    // 5분마다 워드 클라우드 새로 고침
+	    setInterval(refreshWordCloudImage, 10000); // 
 	</script>
   
   <!-- Chart JS -->

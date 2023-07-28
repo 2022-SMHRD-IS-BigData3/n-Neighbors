@@ -208,7 +208,7 @@
                        "talker":recv.type=='ENTER'?'알림':recv.talker,
                        "message":recv.message
                        });
-                    if (recv.type === 'FWORD') {
+                    if (recv.type === 'FWORD' && recv.talker == this.talker) {
                         showProfanityWarning();
                       }
                     

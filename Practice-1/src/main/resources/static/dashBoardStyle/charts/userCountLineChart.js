@@ -113,7 +113,7 @@ option = {
       type: 'line',//선 차트 유형
 	  areaStyle: {}, //선 차트의 영역 스타일
       data: data,	//선 차트의 초기 데이터
-      itemStyle : { normal : { color:'#3ba272', lineStyle:{ color:'#3ba272' }}} // 3ba272 초록색
+      itemStyle : { normal : { color:'#0984e3', lineStyle:{ color:'#0984e3' }}} // 3ba272 초록색
     }
   ]
 };
